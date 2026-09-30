@@ -1,0 +1,401 @@
+company_id,company_name,sector,city
+CMP000,Technology Solutions 000,Technology,New York
+CMP001,Technology Solutions 001,Technology,San Francisco
+CMP002,Technology Solutions 002,Technology,Chicago
+CMP003,Technology Solutions 003,Technology,Austin
+CMP004,Technology Solutions 004,Technology,Seattle
+CMP005,Technology Solutions 005,Technology,Boston
+CMP006,Technology Solutions 006,Technology,Denver
+CMP007,Technology Solutions 007,Technology,Atlanta
+CMP008,Technology Solutions 008,Technology,Miami
+CMP009,Technology Solutions 009,Technology,Portland
+CMP010,Technology Solutions 010,Technology,New York
+CMP011,Technology Solutions 011,Technology,San Francisco
+CMP012,Technology Solutions 012,Technology,Chicago
+CMP013,Technology Solutions 013,Technology,Austin
+CMP014,Technology Solutions 014,Technology,Seattle
+CMP015,Technology Solutions 015,Technology,Boston
+CMP016,Technology Solutions 016,Technology,Denver
+CMP017,Technology Solutions 017,Technology,Atlanta
+CMP018,Technology Solutions 018,Technology,Miami
+CMP019,Technology Solutions 019,Technology,Portland
+CMP020,Technology Solutions 020,Technology,New York
+CMP021,Technology Solutions 021,Technology,San Francisco
+CMP022,Technology Solutions 022,Technology,Chicago
+CMP023,Technology Solutions 023,Technology,Austin
+CMP024,Technology Solutions 024,Technology,Seattle
+CMP025,Technology Solutions 025,Technology,Boston
+CMP026,Technology Solutions 026,Technology,Denver
+CMP027,Technology Solutions 027,Technology,Atlanta
+CMP028,Technology Solutions 028,Technology,Miami
+CMP029,Technology Solutions 029,Technology,Portland
+CMP030,Technology Solutions 030,Technology,New York
+CMP031,Technology Solutions 031,Technology,San Francisco
+CMP032,Technology Solutions 032,Technology,Chicago
+CMP033,Technology Solutions 033,Technology,Austin
+CMP034,Technology Solutions 034,Technology,Seattle
+CMP035,Technology Solutions 035,Technology,Boston
+CMP036,Technology Solutions 036,Technology,Denver
+CMP037,Technology Solutions 037,Technology,Atlanta
+CMP038,Technology Solutions 038,Technology,Miami
+CMP039,Technology Solutions 039,Technology,Portland
+CMP040,Technology Solutions 040,Technology,New York
+CMP041,Technology Solutions 041,Technology,San Francisco
+CMP042,Technology Solutions 042,Technology,Chicago
+CMP043,Technology Solutions 043,Technology,Austin
+CMP044,Technology Solutions 044,Technology,Seattle
+CMP045,Technology Solutions 045,Technology,Boston
+CMP046,Technology Solutions 046,Technology,Denver
+CMP047,Technology Solutions 047,Technology,Atlanta
+CMP048,Technology Solutions 048,Technology,Miami
+CMP049,Technology Solutions 049,Technology,Portland
+CMP050,Finance Solutions 050,Finance,New York
+CMP051,Finance Solutions 051,Finance,San Francisco
+CMP052,Finance Solutions 052,Finance,Chicago
+CMP053,Finance Solutions 053,Finance,Austin
+CMP054,Finance Solutions 054,Finance,Seattle
+CMP055,Finance Solutions 055,Finance,Boston
+CMP056,Finance Solutions 056,Finance,Denver
+CMP057,Finance Solutions 057,Finance,Atlanta
+CMP058,Finance Solutions 058,Finance,Miami
+CMP059,Finance Solutions 059,Finance,Portland
+CMP060,Finance Solutions 060,Finance,New York
+CMP061,Finance Solutions 061,Finance,San Francisco
+CMP062,Finance Solutions 062,Finance,Chicago
+CMP063,Finance Solutions 063,Finance,Austin
+CMP064,Finance Solutions 064,Finance,Seattle
+CMP065,Finance Solutions 065,Finance,Boston
+CMP066,Finance Solutions 066,Finance,Denver
+CMP067,Finance Solutions 067,Finance,Atlanta
+CMP068,Finance Solutions 068,Finance,Miami
+CMP069,Finance Solutions 069,Finance,Portland
+CMP070,Finance Solutions 070,Finance,New York
+CMP071,Finance Solutions 071,Finance,San Francisco
+CMP072,Finance Solutions 072,Finance,Chicago
+CMP073,Finance Solutions 073,Finance,Austin
+CMP074,Finance Solutions 074,Finance,Seattle
+CMP075,Finance Solutions 075,Finance,Boston
+CMP076,Finance Solutions 076,Finance,Denver
+CMP077,Finance Solutions 077,Finance,Atlanta
+CMP078,Finance Solutions 078,Finance,Miami
+CMP079,Finance Solutions 079,Finance,Portland
+CMP080,Finance Solutions 080,Finance,New York
+CMP081,Finance Solutions 081,Finance,San Francisco
+CMP082,Finance Solutions 082,Finance,Chicago
+CMP083,Finance Solutions 083,Finance,Austin
+CMP084,Finance Solutions 084,Finance,Seattle
+CMP085,Finance Solutions 085,Finance,Boston
+CMP086,Finance Solutions 086,Finance,Denver
+CMP087,Finance Solutions 087,Finance,Atlanta
+CMP088,Finance Solutions 088,Finance,Miami
+CMP089,Finance Solutions 089,Finance,Portland
+CMP090,Finance Solutions 090,Finance,New York
+CMP091,Finance Solutions 091,Finance,San Francisco
+CMP092,Finance Solutions 092,Finance,Chicago
+CMP093,Finance Solutions 093,Finance,Austin
+CMP094,Finance Solutions 094,Finance,Seattle
+CMP095,Finance Solutions 095,Finance,Boston
+CMP096,Finance Solutions 096,Finance,Denver
+CMP097,Finance Solutions 097,Finance,Atlanta
+CMP098,Finance Solutions 098,Finance,Miami
+CMP099,Finance Solutions 099,Finance,Portland
+CMP100,Healthcare Solutions 100,Healthcare,New York
+CMP101,Healthcare Solutions 101,Healthcare,San Francisco
+CMP102,Healthcare Solutions 102,Healthcare,Chicago
+CMP103,Healthcare Solutions 103,Healthcare,Austin
+CMP104,Healthcare Solutions 104,Healthcare,Seattle
+CMP105,Healthcare Solutions 105,Healthcare,Boston
+CMP106,Healthcare Solutions 106,Healthcare,Denver
+CMP107,Healthcare Solutions 107,Healthcare,Atlanta
+CMP108,Healthcare Solutions 108,Healthcare,Miami
+CMP109,Healthcare Solutions 109,Healthcare,Portland
+CMP110,Healthcare Solutions 110,Healthcare,New York
+CMP111,Healthcare Solutions 111,Healthcare,San Francisco
+CMP112,Healthcare Solutions 112,Healthcare,Chicago
+CMP113,Healthcare Solutions 113,Healthcare,Austin
+CMP114,Healthcare Solutions 114,Healthcare,Seattle
+CMP115,Healthcare Solutions 115,Healthcare,Boston
+CMP116,Healthcare Solutions 116,Healthcare,Denver
+CMP117,Healthcare Solutions 117,Healthcare,Atlanta
+CMP118,Healthcare Solutions 118,Healthcare,Miami
+CMP119,Healthcare Solutions 119,Healthcare,Portland
+CMP120,Healthcare Solutions 120,Healthcare,New York
+CMP121,Healthcare Solutions 121,Healthcare,San Francisco
+CMP122,Healthcare Solutions 122,Healthcare,Chicago
+CMP123,Healthcare Solutions 123,Healthcare,Austin
+CMP124,Healthcare Solutions 124,Healthcare,Seattle
+CMP125,Healthcare Solutions 125,Healthcare,Boston
+CMP126,Healthcare Solutions 126,Healthcare,Denver
+CMP127,Healthcare Solutions 127,Healthcare,Atlanta
+CMP128,Healthcare Solutions 128,Healthcare,Miami
+CMP129,Healthcare Solutions 129,Healthcare,Portland
+CMP130,Healthcare Solutions 130,Healthcare,New York
+CMP131,Healthcare Solutions 131,Healthcare,San Francisco
+CMP132,Healthcare Solutions 132,Healthcare,Chicago
+CMP133,Healthcare Solutions 133,Healthcare,Austin
+CMP134,Healthcare Solutions 134,Healthcare,Seattle
+CMP135,Healthcare Solutions 135,Healthcare,Boston
+CMP136,Healthcare Solutions 136,Healthcare,Denver
+CMP137,Healthcare Solutions 137,Healthcare,Atlanta
+CMP138,Healthcare Solutions 138,Healthcare,Miami
+CMP139,Healthcare Solutions 139,Healthcare,Portland
+CMP140,Healthcare Solutions 140,Healthcare,New York
+CMP141,Healthcare Solutions 141,Healthcare,San Francisco
+CMP142,Healthcare Solutions 142,Healthcare,Chicago
+CMP143,Healthcare Solutions 143,Healthcare,Austin
+CMP144,Healthcare Solutions 144,Healthcare,Seattle
+CMP145,Healthcare Solutions 145,Healthcare,Boston
+CMP146,Healthcare Solutions 146,Healthcare,Denver
+CMP147,Healthcare Solutions 147,Healthcare,Atlanta
+CMP148,Healthcare Solutions 148,Healthcare,Miami
+CMP149,Healthcare Solutions 149,Healthcare,Portland
+CMP150,Retail Solutions 150,Retail,New York
+CMP151,Retail Solutions 151,Retail,San Francisco
+CMP152,Retail Solutions 152,Retail,Chicago
+CMP153,Retail Solutions 153,Retail,Austin
+CMP154,Retail Solutions 154,Retail,Seattle
+CMP155,Retail Solutions 155,Retail,Boston
+CMP156,Retail Solutions 156,Retail,Denver
+CMP157,Retail Solutions 157,Retail,Atlanta
+CMP158,Retail Solutions 158,Retail,Miami
+CMP159,Retail Solutions 159,Retail,Portland
+CMP160,Retail Solutions 160,Retail,New York
+CMP161,Retail Solutions 161,Retail,San Francisco
+CMP162,Retail Solutions 162,Retail,Chicago
+CMP163,Retail Solutions 163,Retail,Austin
+CMP164,Retail Solutions 164,Retail,Seattle
+CMP165,Retail Solutions 165,Retail,Boston
+CMP166,Retail Solutions 166,Retail,Denver
+CMP167,Retail Solutions 167,Retail,Atlanta
+CMP168,Retail Solutions 168,Retail,Miami
+CMP169,Retail Solutions 169,Retail,Portland
+CMP170,Retail Solutions 170,Retail,New York
+CMP171,Retail Solutions 171,Retail,San Francisco
+CMP172,Retail Solutions 172,Retail,Chicago
+CMP173,Retail Solutions 173,Retail,Austin
+CMP174,Retail Solutions 174,Retail,Seattle
+CMP175,Retail Solutions 175,Retail,Boston
+CMP176,Retail Solutions 176,Retail,Denver
+CMP177,Retail Solutions 177,Retail,Atlanta
+CMP178,Retail Solutions 178,Retail,Miami
+CMP179,Retail Solutions 179,Retail,Portland
+CMP180,Retail Solutions 180,Retail,New York
+CMP181,Retail Solutions 181,Retail,San Francisco
+CMP182,Retail Solutions 182,Retail,Chicago
+CMP183,Retail Solutions 183,Retail,Austin
+CMP184,Retail Solutions 184,Retail,Seattle
+CMP185,Retail Solutions 185,Retail,Boston
+CMP186,Retail Solutions 186,Retail,Denver
+CMP187,Retail Solutions 187,Retail,Atlanta
+CMP188,Retail Solutions 188,Retail,Miami
+CMP189,Retail Solutions 189,Retail,Portland
+CMP190,Retail Solutions 190,Retail,New York
+CMP191,Retail Solutions 191,Retail,San Francisco
+CMP192,Retail Solutions 192,Retail,Chicago
+CMP193,Retail Solutions 193,Retail,Austin
+CMP194,Retail Solutions 194,Retail,Seattle
+CMP195,Retail Solutions 195,Retail,Boston
+CMP196,Retail Solutions 196,Retail,Denver
+CMP197,Retail Solutions 197,Retail,Atlanta
+CMP198,Retail Solutions 198,Retail,Miami
+CMP199,Retail Solutions 199,Retail,Portland
+CMP200,Manufacturing Solutions 200,Manufacturing,New York
+CMP201,Manufacturing Solutions 201,Manufacturing,San Francisco
+CMP202,Manufacturing Solutions 202,Manufacturing,Chicago
+CMP203,Manufacturing Solutions 203,Manufacturing,Austin
+CMP204,Manufacturing Solutions 204,Manufacturing,Seattle
+CMP205,Manufacturing Solutions 205,Manufacturing,Boston
+CMP206,Manufacturing Solutions 206,Manufacturing,Denver
+CMP207,Manufacturing Solutions 207,Manufacturing,Atlanta
+CMP208,Manufacturing Solutions 208,Manufacturing,Miami
+CMP209,Manufacturing Solutions 209,Manufacturing,Portland
+CMP210,Manufacturing Solutions 210,Manufacturing,New York
+CMP211,Manufacturing Solutions 211,Manufacturing,San Francisco
+CMP212,Manufacturing Solutions 212,Manufacturing,Chicago
+CMP213,Manufacturing Solutions 213,Manufacturing,Austin
+CMP214,Manufacturing Solutions 214,Manufacturing,Seattle
+CMP215,Manufacturing Solutions 215,Manufacturing,Boston
+CMP216,Manufacturing Solutions 216,Manufacturing,Denver
+CMP217,Manufacturing Solutions 217,Manufacturing,Atlanta
+CMP218,Manufacturing Solutions 218,Manufacturing,Miami
+CMP219,Manufacturing Solutions 219,Manufacturing,Portland
+CMP220,Manufacturing Solutions 220,Manufacturing,New York
+CMP221,Manufacturing Solutions 221,Manufacturing,San Francisco
+CMP222,Manufacturing Solutions 222,Manufacturing,Chicago
+CMP223,Manufacturing Solutions 223,Manufacturing,Austin
+CMP224,Manufacturing Solutions 224,Manufacturing,Seattle
+CMP225,Manufacturing Solutions 225,Manufacturing,Boston
+CMP226,Manufacturing Solutions 226,Manufacturing,Denver
+CMP227,Manufacturing Solutions 227,Manufacturing,Atlanta
+CMP228,Manufacturing Solutions 228,Manufacturing,Miami
+CMP229,Manufacturing Solutions 229,Manufacturing,Portland
+CMP230,Manufacturing Solutions 230,Manufacturing,New York
+CMP231,Manufacturing Solutions 231,Manufacturing,San Francisco
+CMP232,Manufacturing Solutions 232,Manufacturing,Chicago
+CMP233,Manufacturing Solutions 233,Manufacturing,Austin
+CMP234,Manufacturing Solutions 234,Manufacturing,Seattle
+CMP235,Manufacturing Solutions 235,Manufacturing,Boston
+CMP236,Manufacturing Solutions 236,Manufacturing,Denver
+CMP237,Manufacturing Solutions 237,Manufacturing,Atlanta
+CMP238,Manufacturing Solutions 238,Manufacturing,Miami
+CMP239,Manufacturing Solutions 239,Manufacturing,Portland
+CMP240,Manufacturing Solutions 240,Manufacturing,New York
+CMP241,Manufacturing Solutions 241,Manufacturing,San Francisco
+CMP242,Manufacturing Solutions 242,Manufacturing,Chicago
+CMP243,Manufacturing Solutions 243,Manufacturing,Austin
+CMP244,Manufacturing Solutions 244,Manufacturing,Seattle
+CMP245,Manufacturing Solutions 245,Manufacturing,Boston
+CMP246,Manufacturing Solutions 246,Manufacturing,Denver
+CMP247,Manufacturing Solutions 247,Manufacturing,Atlanta
+CMP248,Manufacturing Solutions 248,Manufacturing,Miami
+CMP249,Manufacturing Solutions 249,Manufacturing,Portland
+CMP250,Energy Solutions 250,Energy,New York
+CMP251,Energy Solutions 251,Energy,San Francisco
+CMP252,Energy Solutions 252,Energy,Chicago
+CMP253,Energy Solutions 253,Energy,Austin
+CMP254,Energy Solutions 254,Energy,Seattle
+CMP255,Energy Solutions 255,Energy,Boston
+CMP256,Energy Solutions 256,Energy,Denver
+CMP257,Energy Solutions 257,Energy,Atlanta
+CMP258,Energy Solutions 258,Energy,Miami
+CMP259,Energy Solutions 259,Energy,Portland
+CMP260,Energy Solutions 260,Energy,New York
+CMP261,Energy Solutions 261,Energy,San Francisco
+CMP262,Energy Solutions 262,Energy,Chicago
+CMP263,Energy Solutions 263,Energy,Austin
+CMP264,Energy Solutions 264,Energy,Seattle
+CMP265,Energy Solutions 265,Energy,Boston
+CMP266,Energy Solutions 266,Energy,Denver
+CMP267,Energy Solutions 267,Energy,Atlanta
+CMP268,Energy Solutions 268,Energy,Miami
+CMP269,Energy Solutions 269,Energy,Portland
+CMP270,Energy Solutions 270,Energy,New York
+CMP271,Energy Solutions 271,Energy,San Francisco
+CMP272,Energy Solutions 272,Energy,Chicago
+CMP273,Energy Solutions 273,Energy,Austin
+CMP274,Energy Solutions 274,Energy,Seattle
+CMP275,Energy Solutions 275,Energy,Boston
+CMP276,Energy Solutions 276,Energy,Denver
+CMP277,Energy Solutions 277,Energy,Atlanta
+CMP278,Energy Solutions 278,Energy,Miami
+CMP279,Energy Solutions 279,Energy,Portland
+CMP280,Energy Solutions 280,Energy,New York
+CMP281,Energy Solutions 281,Energy,San Francisco
+CMP282,Energy Solutions 282,Energy,Chicago
+CMP283,Energy Solutions 283,Energy,Austin
+CMP284,Energy Solutions 284,Energy,Seattle
+CMP285,Energy Solutions 285,Energy,Boston
+CMP286,Energy Solutions 286,Energy,Denver
+CMP287,Energy Solutions 287,Energy,Atlanta
+CMP288,Energy Solutions 288,Energy,Miami
+CMP289,Energy Solutions 289,Energy,Portland
+CMP290,Energy Solutions 290,Energy,New York
+CMP291,Energy Solutions 291,Energy,San Francisco
+CMP292,Energy Solutions 292,Energy,Chicago
+CMP293,Energy Solutions 293,Energy,Austin
+CMP294,Energy Solutions 294,Energy,Seattle
+CMP295,Energy Solutions 295,Energy,Boston
+CMP296,Energy Solutions 296,Energy,Denver
+CMP297,Energy Solutions 297,Energy,Atlanta
+CMP298,Energy Solutions 298,Energy,Miami
+CMP299,Energy Solutions 299,Energy,Portland
+CMP300,Education Solutions 300,Education,New York
+CMP301,Education Solutions 301,Education,San Francisco
+CMP302,Education Solutions 302,Education,Chicago
+CMP303,Education Solutions 303,Education,Austin
+CMP304,Education Solutions 304,Education,Seattle
+CMP305,Education Solutions 305,Education,Boston
+CMP306,Education Solutions 306,Education,Denver
+CMP307,Education Solutions 307,Education,Atlanta
+CMP308,Education Solutions 308,Education,Miami
+CMP309,Education Solutions 309,Education,Portland
+CMP310,Education Solutions 310,Education,New York
+CMP311,Education Solutions 311,Education,San Francisco
+CMP312,Education Solutions 312,Education,Chicago
+CMP313,Education Solutions 313,Education,Austin
+CMP314,Education Solutions 314,Education,Seattle
+CMP315,Education Solutions 315,Education,Boston
+CMP316,Education Solutions 316,Education,Denver
+CMP317,Education Solutions 317,Education,Atlanta
+CMP318,Education Solutions 318,Education,Miami
+CMP319,Education Solutions 319,Education,Portland
+CMP320,Education Solutions 320,Education,New York
+CMP321,Education Solutions 321,Education,San Francisco
+CMP322,Education Solutions 322,Education,Chicago
+CMP323,Education Solutions 323,Education,Austin
+CMP324,Education Solutions 324,Education,Seattle
+CMP325,Education Solutions 325,Education,Boston
+CMP326,Education Solutions 326,Education,Denver
+CMP327,Education Solutions 327,Education,Atlanta
+CMP328,Education Solutions 328,Education,Miami
+CMP329,Education Solutions 329,Education,Portland
+CMP330,Education Solutions 330,Education,New York
+CMP331,Education Solutions 331,Education,San Francisco
+CMP332,Education Solutions 332,Education,Chicago
+CMP333,Education Solutions 333,Education,Austin
+CMP334,Education Solutions 334,Education,Seattle
+CMP335,Education Solutions 335,Education,Boston
+CMP336,Education Solutions 336,Education,Denver
+CMP337,Education Solutions 337,Education,Atlanta
+CMP338,Education Solutions 338,Education,Miami
+CMP339,Education Solutions 339,Education,Portland
+CMP340,Education Solutions 340,Education,New York
+CMP341,Education Solutions 341,Education,San Francisco
+CMP342,Education Solutions 342,Education,Chicago
+CMP343,Education Solutions 343,Education,Austin
+CMP344,Education Solutions 344,Education,Seattle
+CMP345,Education Solutions 345,Education,Boston
+CMP346,Education Solutions 346,Education,Denver
+CMP347,Education Solutions 347,Education,Atlanta
+CMP348,Education Solutions 348,Education,Miami
+CMP349,Education Solutions 349,Education,Portland
+CMP350,Media Solutions 350,Media,New York
+CMP351,Media Solutions 351,Media,San Francisco
+CMP352,Media Solutions 352,Media,Chicago
+CMP353,Media Solutions 353,Media,Austin
+CMP354,Media Solutions 354,Media,Seattle
+CMP355,Media Solutions 355,Media,Boston
+CMP356,Media Solutions 356,Media,Denver
+CMP357,Media Solutions 357,Media,Atlanta
+CMP358,Media Solutions 358,Media,Miami
+CMP359,Media Solutions 359,Media,Portland
+CMP360,Media Solutions 360,Media,New York
+CMP361,Media Solutions 361,Media,San Francisco
+CMP362,Media Solutions 362,Media,Chicago
+CMP363,Media Solutions 363,Media,Austin
+CMP364,Media Solutions 364,Media,Seattle
+CMP365,Media Solutions 365,Media,Boston
+CMP366,Media Solutions 366,Media,Denver
+CMP367,Media Solutions 367,Media,Atlanta
+CMP368,Media Solutions 368,Media,Miami
+CMP369,Media Solutions 369,Media,Portland
+CMP370,Media Solutions 370,Media,New York
+CMP371,Media Solutions 371,Media,San Francisco
+CMP372,Media Solutions 372,Media,Chicago
+CMP373,Media Solutions 373,Media,Austin
+CMP374,Media Solutions 374,Media,Seattle
+CMP375,Media Solutions 375,Media,Boston
+CMP376,Media Solutions 376,Media,Denver
+CMP377,Media Solutions 377,Media,Atlanta
+CMP378,Media Solutions 378,Media,Miami
+CMP379,Media Solutions 379,Media,Portland
+CMP380,Media Solutions 380,Media,New York
+CMP381,Media Solutions 381,Media,San Francisco
+CMP382,Media Solutions 382,Media,Chicago
+CMP383,Media Solutions 383,Media,Austin
+CMP384,Media Solutions 384,Media,Seattle
+CMP385,Media Solutions 385,Media,Boston
+CMP386,Media Solutions 386,Media,Denver
+CMP387,Media Solutions 387,Media,Atlanta
+CMP388,Media Solutions 388,Media,Miami
+CMP389,Media Solutions 389,Media,Portland
+CMP390,Media Solutions 390,Media,New York
+CMP391,Media Solutions 391,Media,San Francisco
+CMP392,Media Solutions 392,Media,Chicago
+CMP393,Media Solutions 393,Media,Austin
+CMP394,Media Solutions 394,Media,Seattle
+CMP395,Media Solutions 395,Media,Boston
+CMP396,Media Solutions 396,Media,Denver
+CMP397,Media Solutions 397,Media,Atlanta
+CMP398,Media Solutions 398,Media,Miami
+CMP399,Media Solutions 399,Media,Portland

@@ -1,0 +1,130 @@
+{
+  "generated_at": "2026-09-22T20:34:47.890593+00:00",
+  "seed": 26,
+  "summary": {
+    "total_checks": 17,
+    "passed": 17,
+    "failed": 0
+  },
+  "checks": [
+    {
+      "check_name": "bronze_companies",
+      "expected": 400,
+      "actual": 400,
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "check_name": "bronze_postings",
+      "expected": 55350,
+      "actual": 55350,
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "check_name": "silver_postings_after_dedup",
+      "expected": 54000,
+      "actual": 54000,
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "check_name": "duplicates_removed",
+      "expected": 1350,
+      "actual": 1350,
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "check_name": "missing_or_notspecified_skills",
+      "expected": 1350,
+      "actual": 1350,
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "check_name": "unknown_company_rejects",
+      "expected": 540,
+      "actual": 540,
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "check_name": "invalid_date_rejects",
+      "expected": 270,
+      "actual": 270,
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "check_name": "raw_distinct_skill_strings",
+      "expected": 57,
+      "actual": 57,
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "check_name": "normalized_distinct_skills",
+      "expected": 20,
+      "actual": 20,
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "check_name": "gold_skill_month_rows",
+      "expected": 360,
+      "actual": 360,
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "check_name": "gold_pair_month_possible_rows",
+      "expected": 6840,
+      "actual": 6840,
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "check_name": "gold_pair_month_populated_rows",
+      "expected": 6660,
+      "actual": 6660,
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "check_name": "postings_per_month_in_gold",
+      "expected": 2880,
+      "actual": 2880,
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "check_name": "tracked_skill_total_snowflake",
+      "expected": 12726,
+      "actual": 12726,
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "check_name": "tracked_skill_total_databricks",
+      "expected": 9954,
+      "actual": 9954,
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "check_name": "tracked_skill_total_hadoop",
+      "expected": 9666,
+      "actual": 9666,
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "check_name": "tracked_skill_total_dbt",
+      "expected": 6363,
+      "actual": 6363,
+      "status": "PASS",
+      "details": ""
+    }
+  ]
+}

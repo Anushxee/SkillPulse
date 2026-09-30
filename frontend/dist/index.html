@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SkillPulse — Job Market Skill Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F7F7F5;
+  --surface: #FFFFFF;
+  --surface-2: #F0F0ED;
+  --ink: #16181D;
+  --muted: #5B6169;
+  --faint: #8A8F97;
+  --border: #E2E1DC;
+  --amber: #B96F1E;
+  --amber-soft: #F4E3CC;
+  --teal: #1F6F6B;
+  --teal-soft: #DCEAE8;
+  --red: #B23B3B;
+  --focus: #1F6F6B;
+  --radius: 7px;
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  --bg: #2A2C30;
+  --surface: #34363B;
+  --surface-2: #3C3E44;
+  --ink: #EDEDEC;
+  --muted: #A8ACB3;
+  --faint: #7D818A;
+  --border: #45484E;
+  --amber: #E9A552;
+  --amber-soft: #4A3A20;
+  --teal: #6FBBB4;
+  --teal-soft: #29403E;
+  --red: #E08080;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'IBM Plex Sans', -apple-system, sans-serif;
+  font-size: 14.5px;
+  line-height: 1.5;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, .num { font-family: 'Source Serif 4', Georgia, serif; }
+a { color: var(--teal); }
+::selection { background: var(--amber-soft); }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.app { display: flex; min-height: 100vh; }
+
+/* ---- Nav rail ---- */
+.rail {
+  width: 232px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 22px 14px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+.brand { display: flex; align-items: center; gap: 9px; padding: 0 8px 20px; }
+.brand svg { flex-shrink: 0; }
+.brand-name { font-family: 'Source Serif 4', serif; font-weight: 600; font-size: 19px; letter-spacing: -0.01em; }
+.brand-sub { font-size: 11px; color: var(--faint); margin-top: 1px; }
+.nav { display: flex; flex-direction: column; gap: 2px; margin-top: 6px; }
+.nav button {
+  all: unset;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: var(--radius);
+  font-size: 13.5px;
+  color: var(--muted);
+  cursor: pointer;
+}
+.nav button:hover { background: var(--surface-2); color: var(--ink); }
+.nav button.active { background: var(--teal-soft); color: var(--teal); font-weight: 500; }
+.nav button .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: .55; flex-shrink: 0; }
+.rail-footer { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--border); }
+.theme-toggle {
+  all: unset;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+}
+.theme-toggle:hover { background: var(--surface-2); }
+.switch { width: 32px; height: 18px; border-radius: 10px; background: var(--border); position: relative; flex-shrink: 0; }
+.switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: var(--surface); transition: transform .15s ease; }
+:root[data-theme="dark"] .switch { background: var(--teal); }
+:root[data-theme="dark"] .switch::after { transform: translateX(14px); }
+
+/* ---- Main ---- */
+.main { flex: 1; min-width: 0; padding: 28px 36px 60px; max-width: 1180px; }
+.page-head { margin-bottom: 22px; }
+.page-head h1 { font-size: 25px; font-weight: 600; margin: 0 0 4px; letter-spacing: -0.01em; }
+.page-head p { margin: 0; color: var(--muted); font-size: 13.5px; max-width: 62ch; }
+
+.grid { display: grid; gap: 14px; }
+.kpis { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin-bottom: 22px; }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 17px;
+}
+.kpi-label { font-size: 11.5px; color: var(--faint); margin-bottom: 7px; }
+.kpi-value { font-size: 26px; font-weight: 600; line-height: 1.1; }
+.kpi-sub { font-size: 12px; color: var(--muted); margin-top: 5px; }
+.up { color: var(--teal); } .down { color: var(--red); }
+
+.two-col { grid-template-columns: 1.4fr 1fr; align-items: start; }
+.section-title { font-size: 14.5px; font-weight: 600; margin: 0 0 3px; }
+.section-desc { font-size: 12.5px; color: var(--muted); margin: 0 0 14px; }
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; font-weight: 500; color: var(--faint); font-size: 11.5px; padding: 0 10px 8px 0; border-bottom: 1px solid var(--border); }
+td { padding: 8px 10px 8px 0; border-bottom: 1px solid var(--border); }
+tr:last-child td { border-bottom: none; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.rank-badge { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 5px; background: var(--surface-2); font-size: 11px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
+
+.controls { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+select, .chip-group {
+  font-family: inherit; font-size: 13px; color: var(--ink); background: var(--surface);
+  border: 1px solid var(--border); border-radius: var(--radius); padding: 7px 10px;
+}
+.chip-group { display: flex; gap: 6px; padding: 4px; flex-wrap: wrap; }
+.chip {
+  all: unset; font-size: 12.5px; padding: 5px 10px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border); color: var(--muted);
+}
+.chip.active { background: var(--teal); color: #fff; border-color: var(--teal); }
+:root[data-theme="dark"] .chip.active { color: #12201f; }
+
+.chart-wrap { width: 100%; overflow-x: auto; }
+svg text { fill: var(--muted); font-family: 'IBM Plex Sans', sans-serif; }
+.axis-line { stroke: var(--border); stroke-width: 1; }
+.gridline { stroke: var(--border); stroke-width: 1; opacity: .6; }
+
+.legend { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 10px; font-size: 12px; color: var(--muted); }
+.legend-item { display: flex; align-items: center; gap: 6px; }
+.legend-swatch { width: 10px; height: 10px; border-radius: 2px; }
+
+.tag { display: inline-block; font-size: 11px; padding: 2px 7px; border-radius: 5px; background: var(--surface-2); color: var(--muted); }
+.pill-good { background: var(--teal-soft); color: var(--teal); }
+.pill-bad { background: #F3DDDD; color: var(--red); }
+:root[data-theme="dark"] .pill-bad { background: #4A2E2E; }
+
+.funnel { display: flex; flex-direction: column; gap: 0; }
+.funnel-step { display: flex; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px dashed var(--border); }
+.funnel-step:last-child { border-bottom: none; }
+.funnel-bar-track { flex: 1; height: 26px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
+.funnel-bar-fill { height: 100%; background: var(--teal); }
+.funnel-label { width: 230px; flex-shrink: 0; font-size: 13px; }
+.funnel-value { width: 90px; text-align: right; font-variant-numeric: tabular-nums; font-size: 13px; flex-shrink: 0; }
+.funnel-delta { width: 130px; flex-shrink: 0; font-size: 12px; color: var(--red); text-align: right; }
+
+.pipeline-flow { display: flex; align-items: stretch; gap: 0; flex-wrap: wrap; }
+.flow-node { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; min-width: 130px; }
+.flow-node .t { font-size: 12.5px; font-weight: 600; }
+.flow-node .d { font-size: 11px; color: var(--muted); margin-top: 3px; }
+.flow-arrow { display: flex; align-items: center; padding: 0 8px; color: var(--faint); font-size: 16px; }
+
+.stack-list { display: flex; flex-direction: column; gap: 10px; }
+.stack-row { display: flex; justify-content: space-between; font-size: 13px; padding: 9px 0; border-bottom: 1px solid var(--border); }
+.stack-row:last-child { border-bottom: none; }
+
+footer.foot { margin-top: 30px; font-size: 11.5px; color: var(--faint); }
+
+.tabbar-mobile { display: none; }
+
+@media (max-width: 860px) {
+  .app { flex-direction: column; }
+  .rail { position: sticky; top: 0; width: 100%; height: auto; flex-direction: row; align-items: center; padding: 10px 14px; z-index: 10; border-right: none; border-bottom: 1px solid var(--border); }
+  .brand { padding: 0 10px 0 0; }
+  .nav { flex-direction: row; overflow-x: auto; gap: 2px; margin-top: 0; }
+  .nav button span.label { display: none; }
+  .nav button { padding: 8px; }
+  .rail-footer { margin-top: 0; margin-left: auto; padding-top: 0; border-top: none; }
+  .main { padding: 20px 16px 50px; }
+  .two-col { grid-template-columns: 1fr; }
+  .funnel-label { width: 150px; }
+  .funnel-delta { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <nav class="rail">
+    <div class="brand">
+      <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+        <path d="M2 17 L8 17 L11 8 L14 22 L17 12 L19 17 L24 17" stroke="var(--amber)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+      <div>
+        <div class="brand-name">SkillPulse</div>
+        <div class="brand-sub">Project 26 · Skill Demand</div>
+      </div>
+    </div>
+    <div class="nav" id="nav">
+      <button data-page="overview" class="active"><span class="dot"></span><span class="label">Overview</span></button>
+      <button data-page="trends"><span class="dot"></span><span class="label">Skill Trends</span></button>
+      <button data-page="growth"><span class="dot"></span><span class="label">Skill Growth</span></button>
+      <button data-page="relationships"><span class="dot"></span><span class="label">Skill Relationships</span></button>
+      <button data-page="quality"><span class="dot"></span><span class="label">Data Quality</span></button>
+      <button data-page="pipeline"><span class="dot"></span><span class="label">Pipeline / About</span></button>
+    </div>
+    <div class="rail-footer">
+      <button class="theme-toggle" id="themeToggle">
+        <span id="themeLabel">Dark mode</span>
+        <span class="switch"></span>
+      </button>
+    </div>
+  </nav>
+  <main class="main" id="main"></main>
+</div>
+
+<script id="dashboard-data" type="application/json">{"meta": {"project_no": 26, "project_name": "SkillPulse", "seed": 26, "generated_at": "2026-09-22 20:39 UTC", "months": ["2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06", "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12", "2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06"], "skills": ["airflow", "aws", "azure", "databricks", "dbt", "docker", "gcp", "hadoop", "hive", "java", "kafka", "kubernetes", "powerbi", "python", "scala", "snowflake", "spark", "sql", "tableau", "terraform"], "kpi": {"total_postings": 54000, "valid_postings": 51840, "companies": 400, "canonical_skills": 20, "months_analyzed": 18, "top_current_skill": "snowflake", "top_current_skill_share": 31.0, "fastest_growing_skill": "databricks", "fastest_growing_skill_pct": 8.5}}, "skill_trends": {"airflow": [{"month": "2024-01", "postings": 536, "share": 18.61, "rank": 10}, {"month": "2024-02", "postings": 515, "share": 17.88, "rank": 15}, {"month": "2024-03", "postings": 530, "share": 18.4, "rank": 14}, {"month": "2024-04", "postings": 520, "share": 18.06, "rank": 16}, {"month": "2024-05", "postings": 512, "share": 17.78, "rank": 18}, {"month": "2024-06", "postings": 545, "share": 18.92, "rank": 7}, {"month": "2024-07", "postings": 543, "share": 18.85, "rank": 9}, {"month": "2024-08", "postings": 499, "share": 17.33, "rank": 19}, {"month": "2024-09", "postings": 525, "share": 18.23, "rank": 16}, {"month": "2024-10", "postings": 568, "share": 19.72, "rank": 4}, {"month": "2024-11", "postings": 531, "share": 18.44, "rank": 14}, {"month": "2024-12", "postings": 538, "share": 18.68, "rank": 11}, {"month": "2025-01", "postings": 572, "share": 19.86, "rank": 4}, {"month": "2025-02", "postings": 511, "share": 17.74, "rank": 17}, {"month": "2025-03", "postings": 545, "share": 18.92, "rank": 7}, {"month": "2025-04", "postings": 530, "share": 18.4, "rank": 13}, {"month": "2025-05", "postings": 556, "share": 19.31, "rank": 5}, {"month": "2025-06", "postings": 540, "share": 18.75, "rank": 10}], "aws": [{"month": "2024-01", "postings": 519, "share": 18.02, "rank": 15}, {"month": "2024-02", "postings": 567, "share": 19.69, "rank": 3}, {"month": "2024-03", "postings": 522, "share": 18.12, "rank": 17}, {"month": "2024-04", "postings": 528, "share": 18.33, "rank": 15}, {"month": "2024-05", "postings": 525, "share": 18.23, "rank": 14}, {"month": "2024-06", "postings": 527, "share": 18.3, "rank": 13}, {"month": "2024-07", "postings": 522, "share": 18.12, "rank": 16}, {"month": "2024-08", "postings": 516, "share": 17.92, "rank": 17}, {"month": "2024-09", "postings": 527, "share": 18.3, "rank": 14}, {"month": "2024-10", "postings": 545, "share": 18.92, "rank": 9}, {"month": "2024-11", "postings": 485, "share": 16.84, "rank": 18}, {"month": "2024-12", "postings": 571, "share": 19.83, "rank": 4}, {"month": "2025-01", "postings": 534, "share": 18.54, "rank": 13}, {"month": "2025-02", "postings": 527, "share": 18.3, "rank": 14}, {"month": "2025-03", "postings": 525, "share": 18.23, "rank": 16}, {"month": "2025-04", "postings": 541, "share": 18.78, "rank": 10}, {"month": "2025-05", "postings": 552, "share": 19.17, "rank": 7}, {"month": "2025-06", "postings": 531, "share": 18.44, "rank": 11}], "azure": [{"month": "2024-01", "postings": 551, "share": 19.13, "rank": 5}, {"month": "2024-02", "postings": 514, "share": 17.85, "rank": 16}, {"month": "2024-03", "postings": 535, "share": 18.58, "rank": 13}, {"month": "2024-04", "postings": 552, "share": 19.17, "rank": 5}, {"month": "2024-05", "postings": 550, "share": 19.1, "rank": 7}, {"month": "2024-06", "postings": 516, "share": 17.92, "rank": 16}, {"month": "2024-07", "postings": 530, "share": 18.4, "rank": 14}, {"month": "2024-08", "postings": 570, "share": 19.79, "rank": 4}, {"month": "2024-09", "postings": 566, "share": 19.65, "rank": 4}, {"month": "2024-10", "postings": 532, "share": 18.47, "rank": 13}, {"month": "2024-11", "postings": 549, "share": 19.06, "rank": 7}, {"month": "2024-12", "postings": 527, "share": 18.3, "rank": 16}, {"month": "2025-01", "postings": 552, "share": 19.17, "rank": 6}, {"month": "2025-02", "postings": 607, "share": 21.08, "rank": 3}, {"month": "2025-03", "postings": 550, "share": 19.1, "rank": 6}, {"month": "2025-04", "postings": 507, "share": 17.6, "rank": 18}, {"month": "2025-05", "postings": 493, "share": 17.12, "rank": 18}, {"month": "2025-06", "postings": 558, "share": 19.38, "rank": 4}], "databricks": [{"month": "2024-01", "postings": 400, "share": 13.89, "rank": 19}, {"month": "2024-02", "postings": 418, "share": 14.51, "rank": 19}, {"month": "2024-03", "postings": 436, "share": 15.14, "rank": 19}, {"month": "2024-04", "postings": 454, "share": 15.76, "rank": 19}, {"month": "2024-05", "postings": 472, "share": 16.39, "rank": 19}, {"month": "2024-06", "postings": 490, "share": 17.01, "rank": 19}, {"month": "2024-07", "postings": 508, "share": 17.64, "rank": 18}, {"month": "2024-08", "postings": 526, "share": 18.26, "rank": 14}, {"month": "2024-09", "postings": 544, "share": 18.89, "rank": 8}, {"month": "2024-10", "postings": 562, "share": 19.51, "rank": 6}, {"month": "2024-11", "postings": 580, "share": 20.14, "rank": 2}, {"month": "2024-12", "postings": 598, "share": 20.76, "rank": 2}, {"month": "2025-01", "postings": 616, "share": 21.39, "rank": 2}, {"month": "2025-02", "postings": 634, "share": 22.01, "rank": 2}, {"month": "2025-03", "postings": 652, "share": 22.64, "rank": 2}, {"month": "2025-04", "postings": 670, "share": 23.26, "rank": 2}, {"month": "2025-05", "postings": 688, "share": 23.89, "rank": 2}, {"month": "2025-06", "postings": 706, "share": 24.51, "rank": 2}], "dbt": [{"month": "2024-01", "postings": 260, "share": 9.03, "rank": 20}, {"month": "2024-02", "postings": 271, "share": 9.41, "rank": 20}, {"month": "2024-03", "postings": 282, "share": 9.79, "rank": 20}, {"month": "2024-04", "postings": 293, "share": 10.17, "rank": 20}, {"month": "2024-05", "postings": 304, "share": 10.56, "rank": 20}, {"month": "2024-06", "postings": 315, "share": 10.94, "rank": 20}, {"month": "2024-07", "postings": 326, "share": 11.32, "rank": 20}, {"month": "2024-08", "postings": 337, "share": 11.7, "rank": 20}, {"month": "2024-09", "postings": 348, "share": 12.08, "rank": 20}, {"month": "2024-10", "postings": 359, "share": 12.47, "rank": 20}, {"month": "2024-11", "postings": 370, "share": 12.85, "rank": 20}, {"month": "2024-12", "postings": 381, "share": 13.23, "rank": 20}, {"month": "2025-01", "postings": 392, "share": 13.61, "rank": 20}, {"month": "2025-02", "postings": 403, "share": 13.99, "rank": 19}, {"month": "2025-03", "postings": 414, "share": 14.37, "rank": 19}, {"month": "2025-04", "postings": 425, "share": 14.76, "rank": 19}, {"month": "2025-05", "postings": 436, "share": 15.14, "rank": 19}, {"month": "2025-06", "postings": 447, "share": 15.52, "rank": 19}], "docker": [{"month": "2024-01", "postings": 548, "share": 19.03, "rank": 6}, {"month": "2024-02", "postings": 500, "share": 17.36, "rank": 18}, {"month": "2024-03", "postings": 579, "share": 20.1, "rank": 2}, {"month": "2024-04", "postings": 552, "share": 19.17, "rank": 6}, {"month": "2024-05", "postings": 519, "share": 18.02, "rank": 16}, {"month": "2024-06", "postings": 517, "share": 17.95, "rank": 15}, {"month": "2024-07", "postings": 536, "share": 18.61, "rank": 13}, {"month": "2024-08", "postings": 519, "share": 18.02, "rank": 16}, {"month": "2024-09", "postings": 541, "share": 18.78, "rank": 11}, {"month": "2024-10", "postings": 558, "share": 19.38, "rank": 8}, {"month": "2024-11", "postings": 561, "share": 19.48, "rank": 4}, {"month": "2024-12", "postings": 500, "share": 17.36, "rank": 18}, {"month": "2025-01", "postings": 588, "share": 20.42, "rank": 3}, {"month": "2025-02", "postings": 539, "share": 18.72, "rank": 11}, {"month": "2025-03", "postings": 520, "share": 18.06, "rank": 17}, {"month": "2025-04", "postings": 509, "share": 17.67, "rank": 17}, {"month": "2025-05", "postings": 574, "share": 19.93, "rank": 4}, {"month": "2025-06", "postings": 556, "share": 19.31, "rank": 5}], "gcp": [{"month": "2024-01", "postings": 543, "share": 18.85, "rank": 7}, {"month": "2024-02", "postings": 546, "share": 18.96, "rank": 9}, {"month": "2024-03", "postings": 550, "share": 19.1, "rank": 8}, {"month": "2024-04", "postings": 552, "share": 19.17, "rank": 7}, {"month": "2024-05", "postings": 541, "share": 18.78, "rank": 11}, {"month": "2024-06", "postings": 541, "share": 18.78, "rank": 9}, {"month": "2024-07", "postings": 500, "share": 17.36, "rank": 19}, {"month": "2024-08", "postings": 566, "share": 19.65, "rank": 6}, {"month": "2024-09", "postings": 540, "share": 18.75, "rank": 12}, {"month": "2024-10", "postings": 500, "share": 17.36, "rank": 19}, {"month": "2024-11", "postings": 547, "share": 18.99, "rank": 9}, {"month": "2024-12", "postings": 533, "share": 18.51, "rank": 13}, {"month": "2025-01", "postings": 538, "share": 18.68, "rank": 10}, {"month": "2025-02", "postings": 518, "share": 17.99, "rank": 16}, {"month": "2025-03", "postings": 534, "share": 18.54, "rank": 12}, {"month": "2025-04", "postings": 522, "share": 18.12, "rank": 14}, {"month": "2025-05", "postings": 508, "share": 17.64, "rank": 17}, {"month": "2025-06", "postings": 547, "share": 18.99, "rank": 8}], "hadoop": [{"month": "2024-01", "postings": 860, "share": 29.86, "rank": 1}, {"month": "2024-02", "postings": 822, "share": 28.54, "rank": 1}, {"month": "2024-03", "postings": 784, "share": 27.22, "rank": 1}, {"month": "2024-04", "postings": 746, "share": 25.9, "rank": 1}, {"month": "2024-05", "postings": 708, "share": 24.58, "rank": 1}, {"month": "2024-06", "postings": 670, "share": 23.26, "rank": 1}, {"month": "2024-07", "postings": 632, "share": 21.94, "rank": 2}, {"month": "2024-08", "postings": 594, "share": 20.62, "rank": 2}, {"month": "2024-09", "postings": 556, "share": 19.31, "rank": 5}, {"month": "2024-10", "postings": 518, "share": 17.99, "rank": 16}, {"month": "2024-11", "postings": 480, "share": 16.67, "rank": 19}, {"month": "2024-12", "postings": 442, "share": 15.35, "rank": 19}, {"month": "2025-01", "postings": 404, "share": 14.03, "rank": 19}, {"month": "2025-02", "postings": 366, "share": 12.71, "rank": 20}, {"month": "2025-03", "postings": 328, "share": 11.39, "rank": 20}, {"month": "2025-04", "postings": 290, "share": 10.07, "rank": 20}, {"month": "2025-05", "postings": 252, "share": 8.75, "rank": 20}, {"month": "2025-06", "postings": 214, "share": 7.43, "rank": 20}], "hive": [{"month": "2024-01", "postings": 558, "share": 19.38, "rank": 3}, {"month": "2024-02", "postings": 504, "share": 17.5, "rank": 17}, {"month": "2024-03", "postings": 491, "share": 17.05, "rank": 18}, {"month": "2024-04", "postings": 555, "share": 19.27, "rank": 4}, {"month": "2024-05", "postings": 529, "share": 18.37, "rank": 13}, {"month": "2024-06", "postings": 581, "share": 20.17, "rank": 3}, {"month": "2024-07", "postings": 543, "share": 18.85, "rank": 10}, {"month": "2024-08", "postings": 544, "share": 18.89, "rank": 11}, {"month": "2024-09", "postings": 523, "share": 18.16, "rank": 17}, {"month": "2024-10", "postings": 523, "share": 18.16, "rank": 15}, {"month": "2024-11", "postings": 542, "share": 18.82, "rank": 10}, {"month": "2024-12", "postings": 540, "share": 18.75, "rank": 10}, {"month": "2025-01", "postings": 545, "share": 18.92, "rank": 8}, {"month": "2025-02", "postings": 555, "share": 19.27, "rank": 7}, {"month": "2025-03", "postings": 537, "share": 18.65, "rank": 10}, {"month": "2025-04", "postings": 553, "share": 19.2, "rank": 6}, {"month": "2025-05", "postings": 532, "share": 18.47, "rank": 13}, {"month": "2025-06", "postings": 527, "share": 18.3, "rank": 13}], "java": [{"month": "2024-01", "postings": 517, "share": 17.95, "rank": 16}, {"month": "2024-02", "postings": 539, "share": 18.72, "rank": 11}, {"month": "2024-03", "postings": 524, "share": 18.19, "rank": 15}, {"month": "2024-04", "postings": 489, "share": 16.98, "rank": 18}, {"month": "2024-05", "postings": 569, "share": 19.76, "rank": 3}, {"month": "2024-06", "postings": 520, "share": 18.06, "rank": 14}, {"month": "2024-07", "postings": 557, "share": 19.34, "rank": 6}, {"month": "2024-08", "postings": 581, "share": 20.17, "rank": 3}, {"month": "2024-09", "postings": 551, "share": 19.13, "rank": 6}, {"month": "2024-10", "postings": 539, "share": 18.72, "rank": 12}, {"month": "2024-11", "postings": 536, "share": 18.61, "rank": 13}, {"month": "2024-12", "postings": 528, "share": 18.33, "rank": 15}, {"month": "2025-01", "postings": 537, "share": 18.65, "rank": 11}, {"month": "2025-02", "postings": 506, "share": 17.57, "rank": 18}, {"month": "2025-03", "postings": 517, "share": 17.95, "rank": 18}, {"month": "2025-04", "postings": 566, "share": 19.65, "rank": 3}, {"month": "2025-05", "postings": 527, "share": 18.3, "rank": 14}, {"month": "2025-06", "postings": 494, "share": 17.15, "rank": 18}], "kafka": [{"month": "2024-01", "postings": 516, "share": 17.92, "rank": 17}, {"month": "2024-02", "postings": 520, "share": 18.06, "rank": 14}, {"month": "2024-03", "postings": 541, "share": 18.78, "rank": 12}, {"month": "2024-04", "postings": 529, "share": 18.37, "rank": 14}, {"month": "2024-05", "postings": 530, "share": 18.4, "rank": 12}, {"month": "2024-06", "postings": 529, "share": 18.37, "rank": 12}, {"month": "2024-07", "postings": 529, "share": 18.37, "rank": 15}, {"month": "2024-08", "postings": 556, "share": 19.31, "rank": 8}, {"month": "2024-09", "postings": 551, "share": 19.13, "rank": 7}, {"month": "2024-10", "postings": 542, "share": 18.82, "rank": 10}, {"month": "2024-11", "postings": 541, "share": 18.78, "rank": 11}, {"month": "2024-12", "postings": 557, "share": 19.34, "rank": 6}, {"month": "2025-01", "postings": 548, "share": 19.03, "rank": 7}, {"month": "2025-02", "postings": 574, "share": 19.93, "rank": 4}, {"month": "2025-03", "postings": 566, "share": 19.65, "rank": 3}, {"month": "2025-04", "postings": 519, "share": 18.02, "rank": 15}, {"month": "2025-05", "postings": 543, "share": 18.85, "rank": 8}, {"month": "2025-06", "postings": 525, "share": 18.23, "rank": 14}], "kubernetes": [{"month": "2024-01", "postings": 571, "share": 19.83, "rank": 2}, {"month": "2024-02", "postings": 549, "share": 19.06, "rank": 8}, {"month": "2024-03", "postings": 552, "share": 19.17, "rank": 6}, {"month": "2024-04", "postings": 544, "share": 18.89, "rank": 11}, {"month": "2024-05", "postings": 545, "share": 18.92, "rank": 9}, {"month": "2024-06", "postings": 533, "share": 18.51, "rank": 10}, {"month": "2024-07", "postings": 512, "share": 17.78, "rank": 17}, {"month": "2024-08", "postings": 552, "share": 19.17, "rank": 9}, {"month": "2024-09", "postings": 518, "share": 17.99, "rank": 18}, {"month": "2024-10", "postings": 517, "share": 17.95, "rank": 17}, {"month": "2024-11", "postings": 526, "share": 18.26, "rank": 15}, {"month": "2024-12", "postings": 583, "share": 20.24, "rank": 3}, {"month": "2025-01", "postings": 525, "share": 18.23, "rank": 15}, {"month": "2025-02", "postings": 559, "share": 19.41, "rank": 5}, {"month": "2025-03", "postings": 544, "share": 18.89, "rank": 8}, {"month": "2025-04", "postings": 553, "share": 19.2, "rank": 7}, {"month": "2025-05", "postings": 539, "share": 18.72, "rank": 10}, {"month": "2025-06", "postings": 507, "share": 17.6, "rank": 16}], "powerbi": [{"month": "2024-01", "postings": 529, "share": 18.37, "rank": 13}, {"month": "2024-02", "postings": 527, "share": 18.3, "rank": 13}, {"month": "2024-03", "postings": 554, "share": 19.24, "rank": 5}, {"month": "2024-04", "postings": 547, "share": 18.99, "rank": 9}, {"month": "2024-05", "postings": 561, "share": 19.48, "rank": 4}, {"month": "2024-06", "postings": 581, "share": 20.17, "rank": 4}, {"month": "2024-07", "postings": 555, "share": 19.27, "rank": 7}, {"month": "2024-08", "postings": 551, "share": 19.13, "rank": 10}, {"month": "2024-09", "postings": 543, "share": 18.85, "rank": 10}, {"month": "2024-10", "postings": 515, "share": 17.88, "rank": 18}, {"month": "2024-11", "postings": 555, "share": 19.27, "rank": 6}, {"month": "2024-12", "postings": 544, "share": 18.89, "rank": 8}, {"month": "2025-01", "postings": 510, "share": 17.71, "rank": 17}, {"month": "2025-02", "postings": 541, "share": 18.78, "rank": 10}, {"month": "2025-03", "postings": 526, "share": 18.26, "rank": 15}, {"month": "2025-04", "postings": 536, "share": 18.61, "rank": 11}, {"month": "2025-05", "postings": 585, "share": 20.31, "rank": 3}, {"month": "2025-06", "postings": 501, "share": 17.4, "rank": 17}], "python": [{"month": "2024-01", "postings": 531, "share": 18.44, "rank": 12}, {"month": "2024-02", "postings": 567, "share": 19.69, "rank": 4}, {"month": "2024-03", "postings": 549, "share": 19.06, "rank": 9}, {"month": "2024-04", "postings": 551, "share": 19.13, "rank": 8}, {"month": "2024-05", "postings": 546, "share": 18.96, "rank": 8}, {"month": "2024-06", "postings": 531, "share": 18.44, "rank": 11}, {"month": "2024-07", "postings": 547, "share": 18.99, "rank": 8}, {"month": "2024-08", "postings": 527, "share": 18.3, "rank": 13}, {"month": "2024-09", "postings": 526, "share": 18.26, "rank": 15}, {"month": "2024-10", "postings": 564, "share": 19.58, "rank": 5}, {"month": "2024-11", "postings": 517, "share": 17.95, "rank": 16}, {"month": "2024-12", "postings": 547, "share": 18.99, "rank": 7}, {"month": "2025-01", "postings": 499, "share": 17.33, "rank": 18}, {"month": "2025-02", "postings": 559, "share": 19.41, "rank": 6}, {"month": "2025-03", "postings": 536, "share": 18.61, "rank": 11}, {"month": "2025-04", "postings": 544, "share": 18.89, "rank": 9}, {"month": "2025-05", "postings": 543, "share": 18.85, "rank": 9}, {"month": "2025-06", "postings": 563, "share": 19.55, "rank": 3}], "scala": [{"month": "2024-01", "postings": 556, "share": 19.31, "rank": 4}, {"month": "2024-02", "postings": 552, "share": 19.17, "rank": 7}, {"month": "2024-03", "postings": 552, "share": 19.17, "rank": 7}, {"month": "2024-04", "postings": 536, "share": 18.61, "rank": 12}, {"month": "2024-05", "postings": 556, "share": 19.31, "rank": 5}, {"month": "2024-06", "postings": 543, "share": 18.85, "rank": 8}, {"month": "2024-07", "postings": 537, "share": 18.65, "rank": 12}, {"month": "2024-08", "postings": 524, "share": 18.19, "rank": 15}, {"month": "2024-09", "postings": 567, "share": 19.69, "rank": 2}, {"month": "2024-10", "postings": 577, "share": 20.03, "rank": 2}, {"month": "2024-11", "postings": 567, "share": 19.69, "rank": 3}, {"month": "2024-12", "postings": 543, "share": 18.85, "rank": 9}, {"month": "2025-01", "postings": 569, "share": 19.76, "rank": 5}, {"month": "2025-02", "postings": 539, "share": 18.72, "rank": 12}, {"month": "2025-03", "postings": 531, "share": 18.44, "rank": 13}, {"month": "2025-04", "postings": 556, "share": 19.31, "rank": 5}, {"month": "2025-05", "postings": 511, "share": 17.74, "rank": 16}, {"month": "2025-06", "postings": 528, "share": 18.33, "rank": 12}], "snowflake": [{"month": "2024-01", "postings": 520, "share": 18.06, "rank": 14}, {"month": "2024-02", "postings": 542, "share": 18.82, "rank": 10}, {"month": "2024-03", "postings": 564, "share": 19.58, "rank": 4}, {"month": "2024-04", "postings": 586, "share": 20.35, "rank": 2}, {"month": "2024-05", "postings": 608, "share": 21.11, "rank": 2}, {"month": "2024-06", "postings": 630, "share": 21.88, "rank": 2}, {"month": "2024-07", "postings": 652, "share": 22.64, "rank": 1}, {"month": "2024-08", "postings": 674, "share": 23.4, "rank": 1}, {"month": "2024-09", "postings": 696, "share": 24.17, "rank": 1}, {"month": "2024-10", "postings": 718, "share": 24.93, "rank": 1}, {"month": "2024-11", "postings": 740, "share": 25.69, "rank": 1}, {"month": "2024-12", "postings": 762, "share": 26.46, "rank": 1}, {"month": "2025-01", "postings": 784, "share": 27.22, "rank": 1}, {"month": "2025-02", "postings": 806, "share": 27.99, "rank": 1}, {"month": "2025-03", "postings": 828, "share": 28.75, "rank": 1}, {"month": "2025-04", "postings": 850, "share": 29.51, "rank": 1}, {"month": "2025-05", "postings": 872, "share": 30.28, "rank": 1}, {"month": "2025-06", "postings": 894, "share": 31.04, "rank": 1}], "spark": [{"month": "2024-01", "postings": 533, "share": 18.51, "rank": 11}, {"month": "2024-02", "postings": 553, "share": 19.2, "rank": 6}, {"month": "2024-03", "postings": 565, "share": 19.62, "rank": 3}, {"month": "2024-04", "postings": 546, "share": 18.96, "rank": 10}, {"month": "2024-05", "postings": 521, "share": 18.09, "rank": 15}, {"month": "2024-06", "postings": 498, "share": 17.29, "rank": 18}, {"month": "2024-07", "postings": 543, "share": 18.85, "rank": 11}, {"month": "2024-08", "postings": 570, "share": 19.79, "rank": 5}, {"month": "2024-09", "postings": 544, "share": 18.89, "rank": 9}, {"month": "2024-10", "postings": 574, "share": 19.93, "rank": 3}, {"month": "2024-11", "postings": 559, "share": 19.41, "rank": 5}, {"month": "2024-12", "postings": 503, "share": 17.47, "rank": 17}, {"month": "2025-01", "postings": 541, "share": 18.78, "rank": 9}, {"month": "2025-02", "postings": 527, "share": 18.3, "rank": 15}, {"month": "2025-03", "postings": 556, "share": 19.31, "rank": 5}, {"month": "2025-04", "postings": 533, "share": 18.51, "rank": 12}, {"month": "2025-05", "postings": 537, "share": 18.65, "rank": 11}, {"month": "2025-06", "postings": 551, "share": 19.13, "rank": 7}], "sql": [{"month": "2024-01", "postings": 542, "share": 18.82, "rank": 8}, {"month": "2024-02", "postings": 537, "share": 18.65, "rank": 12}, {"month": "2024-03", "postings": 523, "share": 18.16, "rank": 16}, {"month": "2024-04", "postings": 518, "share": 17.99, "rank": 17}, {"month": "2024-05", "postings": 553, "share": 19.2, "rank": 6}, {"month": "2024-06", "postings": 559, "share": 19.41, "rank": 6}, {"month": "2024-07", "postings": 562, "share": 19.51, "rank": 4}, {"month": "2024-08", "postings": 512, "share": 17.78, "rank": 18}, {"month": "2024-09", "postings": 567, "share": 19.69, "rank": 3}, {"month": "2024-10", "postings": 529, "share": 18.37, "rank": 14}, {"month": "2024-11", "postings": 509, "share": 17.67, "rank": 17}, {"month": "2024-12", "postings": 538, "share": 18.68, "rank": 12}, {"month": "2025-01", "postings": 532, "share": 18.47, "rank": 14}, {"month": "2025-02", "postings": 555, "share": 19.27, "rank": 8}, {"month": "2025-03", "postings": 527, "share": 18.3, "rank": 14}, {"month": "2025-04", "postings": 553, "share": 19.2, "rank": 8}, {"month": "2025-05", "postings": 536, "share": 18.61, "rank": 12}, {"month": "2025-06", "postings": 547, "share": 18.99, "rank": 9}], "tableau": [{"month": "2024-01", "postings": 541, "share": 18.78, "rank": 9}, {"month": "2024-02", "postings": 564, "share": 19.58, "rank": 5}, {"month": "2024-03", "postings": 543, "share": 18.85, "rank": 11}, {"month": "2024-04", "postings": 534, "share": 18.54, "rank": 13}, {"month": "2024-05", "postings": 544, "share": 18.89, "rank": 10}, {"month": "2024-06", "postings": 502, "share": 17.43, "rank": 17}, {"month": "2024-07", "postings": 558, "share": 19.38, "rank": 5}, {"month": "2024-08", "postings": 564, "share": 19.58, "rank": 7}, {"month": "2024-09", "postings": 507, "share": 17.6, "rank": 19}, {"month": "2024-10", "postings": 540, "share": 18.75, "rank": 11}, {"month": "2024-11", "postings": 537, "share": 18.65, "rank": 12}, {"month": "2024-12", "postings": 558, "share": 19.38, "rank": 5}, {"month": "2025-01", "postings": 514, "share": 17.85, "rank": 16}, {"month": "2025-02", "postings": 531, "share": 18.44, "rank": 13}, {"month": "2025-03", "postings": 557, "share": 19.34, "rank": 4}, {"month": "2025-04", "postings": 561, "share": 19.48, "rank": 4}, {"month": "2025-05", "postings": 523, "share": 18.16, "rank": 15}, {"month": "2025-06", "postings": 553, "share": 19.2, "rank": 6}], "terraform": [{"month": "2024-01", "postings": 498, "share": 17.29, "rank": 18}, {"month": "2024-02", "postings": 570, "share": 19.79, "rank": 2}, {"month": "2024-03", "postings": 549, "share": 19.06, "rank": 10}, {"month": "2024-04", "postings": 562, "share": 19.51, "rank": 3}, {"month": "2024-05", "postings": 513, "share": 17.81, "rank": 17}, {"month": "2024-06", "postings": 580, "share": 20.14, "rank": 5}, {"month": "2024-07", "postings": 565, "share": 19.62, "rank": 3}, {"month": "2024-08", "postings": 540, "share": 18.75, "rank": 12}, {"month": "2024-09", "postings": 535, "share": 18.58, "rank": 13}, {"month": "2024-10", "postings": 561, "share": 19.48, "rank": 7}, {"month": "2024-11", "postings": 548, "share": 19.03, "rank": 8}, {"month": "2024-12", "postings": 533, "share": 18.51, "rank": 14}, {"month": "2025-01", "postings": 535, "share": 18.58, "rank": 12}, {"month": "2025-02", "postings": 543, "share": 18.85, "rank": 9}, {"month": "2025-03", "postings": 544, "share": 18.89, "rank": 9}, {"month": "2025-04", "postings": 519, "share": 18.02, "rank": 16}, {"month": "2025-05", "postings": 554, "share": 19.24, "rank": 6}, {"month": "2025-06", "postings": 520, "share": 18.06, "rank": 15}]}, "top10_by_month": {"2024-01": [{"skill": "hadoop", "postings": 860, "share": 29.86, "rank": 1}, {"skill": "kubernetes", "postings": 571, "share": 19.83, "rank": 2}, {"skill": "hive", "postings": 558, "share": 19.38, "rank": 3}, {"skill": "scala", "postings": 556, "share": 19.31, "rank": 4}, {"skill": "azure", "postings": 551, "share": 19.13, "rank": 5}, {"skill": "docker", "postings": 548, "share": 19.03, "rank": 6}, {"skill": "gcp", "postings": 543, "share": 18.85, "rank": 7}, {"skill": "sql", "postings": 542, "share": 18.82, "rank": 8}, {"skill": "tableau", "postings": 541, "share": 18.78, "rank": 9}, {"skill": "airflow", "postings": 536, "share": 18.61, "rank": 10}], "2024-02": [{"skill": "hadoop", "postings": 822, "share": 28.54, "rank": 1}, {"skill": "terraform", "postings": 570, "share": 19.79, "rank": 2}, {"skill": "aws", "postings": 567, "share": 19.69, "rank": 3}, {"skill": "python", "postings": 567, "share": 19.69, "rank": 4}, {"skill": "tableau", "postings": 564, "share": 19.58, "rank": 5}, {"skill": "spark", "postings": 553, "share": 19.2, "rank": 6}, {"skill": "scala", "postings": 552, "share": 19.17, "rank": 7}, {"skill": "kubernetes", "postings": 549, "share": 19.06, "rank": 8}, {"skill": "gcp", "postings": 546, "share": 18.96, "rank": 9}, {"skill": "snowflake", "postings": 542, "share": 18.82, "rank": 10}], "2024-03": [{"skill": "hadoop", "postings": 784, "share": 27.22, "rank": 1}, {"skill": "docker", "postings": 579, "share": 20.1, "rank": 2}, {"skill": "spark", "postings": 565, "share": 19.62, "rank": 3}, {"skill": "snowflake", "postings": 564, "share": 19.58, "rank": 4}, {"skill": "powerbi", "postings": 554, "share": 19.24, "rank": 5}, {"skill": "kubernetes", "postings": 552, "share": 19.17, "rank": 6}, {"skill": "scala", "postings": 552, "share": 19.17, "rank": 7}, {"skill": "gcp", "postings": 550, "share": 19.1, "rank": 8}, {"skill": "python", "postings": 549, "share": 19.06, "rank": 9}, {"skill": "terraform", "postings": 549, "share": 19.06, "rank": 10}], "2024-04": [{"skill": "hadoop", "postings": 746, "share": 25.9, "rank": 1}, {"skill": "snowflake", "postings": 586, "share": 20.35, "rank": 2}, {"skill": "terraform", "postings": 562, "share": 19.51, "rank": 3}, {"skill": "hive", "postings": 555, "share": 19.27, "rank": 4}, {"skill": "azure", "postings": 552, "share": 19.17, "rank": 5}, {"skill": "docker", "postings": 552, "share": 19.17, "rank": 6}, {"skill": "gcp", "postings": 552, "share": 19.17, "rank": 7}, {"skill": "python", "postings": 551, "share": 19.13, "rank": 8}, {"skill": "powerbi", "postings": 547, "share": 18.99, "rank": 9}, {"skill": "spark", "postings": 546, "share": 18.96, "rank": 10}], "2024-05": [{"skill": "hadoop", "postings": 708, "share": 24.58, "rank": 1}, {"skill": "snowflake", "postings": 608, "share": 21.11, "rank": 2}, {"skill": "java", "postings": 569, "share": 19.76, "rank": 3}, {"skill": "powerbi", "postings": 561, "share": 19.48, "rank": 4}, {"skill": "scala", "postings": 556, "share": 19.31, "rank": 5}, {"skill": "sql", "postings": 553, "share": 19.2, "rank": 6}, {"skill": "azure", "postings": 550, "share": 19.1, "rank": 7}, {"skill": "python", "postings": 546, "share": 18.96, "rank": 8}, {"skill": "kubernetes", "postings": 545, "share": 18.92, "rank": 9}, {"skill": "tableau", "postings": 544, "share": 18.89, "rank": 10}], "2024-06": [{"skill": "hadoop", "postings": 670, "share": 23.26, "rank": 1}, {"skill": "snowflake", "postings": 630, "share": 21.88, "rank": 2}, {"skill": "hive", "postings": 581, "share": 20.17, "rank": 3}, {"skill": "powerbi", "postings": 581, "share": 20.17, "rank": 4}, {"skill": "terraform", "postings": 580, "share": 20.14, "rank": 5}, {"skill": "sql", "postings": 559, "share": 19.41, "rank": 6}, {"skill": "airflow", "postings": 545, "share": 18.92, "rank": 7}, {"skill": "scala", "postings": 543, "share": 18.85, "rank": 8}, {"skill": "gcp", "postings": 541, "share": 18.78, "rank": 9}, {"skill": "kubernetes", "postings": 533, "share": 18.51, "rank": 10}], "2024-07": [{"skill": "snowflake", "postings": 652, "share": 22.64, "rank": 1}, {"skill": "hadoop", "postings": 632, "share": 21.94, "rank": 2}, {"skill": "terraform", "postings": 565, "share": 19.62, "rank": 3}, {"skill": "sql", "postings": 562, "share": 19.51, "rank": 4}, {"skill": "tableau", "postings": 558, "share": 19.38, "rank": 5}, {"skill": "java", "postings": 557, "share": 19.34, "rank": 6}, {"skill": "powerbi", "postings": 555, "share": 19.27, "rank": 7}, {"skill": "python", "postings": 547, "share": 18.99, "rank": 8}, {"skill": "airflow", "postings": 543, "share": 18.85, "rank": 9}, {"skill": "hive", "postings": 543, "share": 18.85, "rank": 10}], "2024-08": [{"skill": "snowflake", "postings": 674, "share": 23.4, "rank": 1}, {"skill": "hadoop", "postings": 594, "share": 20.62, "rank": 2}, {"skill": "java", "postings": 581, "share": 20.17, "rank": 3}, {"skill": "azure", "postings": 570, "share": 19.79, "rank": 4}, {"skill": "spark", "postings": 570, "share": 19.79, "rank": 5}, {"skill": "gcp", "postings": 566, "share": 19.65, "rank": 6}, {"skill": "tableau", "postings": 564, "share": 19.58, "rank": 7}, {"skill": "kafka", "postings": 556, "share": 19.31, "rank": 8}, {"skill": "kubernetes", "postings": 552, "share": 19.17, "rank": 9}, {"skill": "powerbi", "postings": 551, "share": 19.13, "rank": 10}], "2024-09": [{"skill": "snowflake", "postings": 696, "share": 24.17, "rank": 1}, {"skill": "scala", "postings": 567, "share": 19.69, "rank": 2}, {"skill": "sql", "postings": 567, "share": 19.69, "rank": 3}, {"skill": "azure", "postings": 566, "share": 19.65, "rank": 4}, {"skill": "hadoop", "postings": 556, "share": 19.31, "rank": 5}, {"skill": "java", "postings": 551, "share": 19.13, "rank": 6}, {"skill": "kafka", "postings": 551, "share": 19.13, "rank": 7}, {"skill": "databricks", "postings": 544, "share": 18.89, "rank": 8}, {"skill": "spark", "postings": 544, "share": 18.89, "rank": 9}, {"skill": "powerbi", "postings": 543, "share": 18.85, "rank": 10}], "2024-10": [{"skill": "snowflake", "postings": 718, "share": 24.93, "rank": 1}, {"skill": "scala", "postings": 577, "share": 20.03, "rank": 2}, {"skill": "spark", "postings": 574, "share": 19.93, "rank": 3}, {"skill": "airflow", "postings": 568, "share": 19.72, "rank": 4}, {"skill": "python", "postings": 564, "share": 19.58, "rank": 5}, {"skill": "databricks", "postings": 562, "share": 19.51, "rank": 6}, {"skill": "terraform", "postings": 561, "share": 19.48, "rank": 7}, {"skill": "docker", "postings": 558, "share": 19.38, "rank": 8}, {"skill": "aws", "postings": 545, "share": 18.92, "rank": 9}, {"skill": "kafka", "postings": 542, "share": 18.82, "rank": 10}], "2024-11": [{"skill": "snowflake", "postings": 740, "share": 25.69, "rank": 1}, {"skill": "databricks", "postings": 580, "share": 20.14, "rank": 2}, {"skill": "scala", "postings": 567, "share": 19.69, "rank": 3}, {"skill": "docker", "postings": 561, "share": 19.48, "rank": 4}, {"skill": "spark", "postings": 559, "share": 19.41, "rank": 5}, {"skill": "powerbi", "postings": 555, "share": 19.27, "rank": 6}, {"skill": "azure", "postings": 549, "share": 19.06, "rank": 7}, {"skill": "terraform", "postings": 548, "share": 19.03, "rank": 8}, {"skill": "gcp", "postings": 547, "share": 18.99, "rank": 9}, {"skill": "hive", "postings": 542, "share": 18.82, "rank": 10}], "2024-12": [{"skill": "snowflake", "postings": 762, "share": 26.46, "rank": 1}, {"skill": "databricks", "postings": 598, "share": 20.76, "rank": 2}, {"skill": "kubernetes", "postings": 583, "share": 20.24, "rank": 3}, {"skill": "aws", "postings": 571, "share": 19.83, "rank": 4}, {"skill": "tableau", "postings": 558, "share": 19.38, "rank": 5}, {"skill": "kafka", "postings": 557, "share": 19.34, "rank": 6}, {"skill": "python", "postings": 547, "share": 18.99, "rank": 7}, {"skill": "powerbi", "postings": 544, "share": 18.89, "rank": 8}, {"skill": "scala", "postings": 543, "share": 18.85, "rank": 9}, {"skill": "hive", "postings": 540, "share": 18.75, "rank": 10}], "2025-01": [{"skill": "snowflake", "postings": 784, "share": 27.22, "rank": 1}, {"skill": "databricks", "postings": 616, "share": 21.39, "rank": 2}, {"skill": "docker", "postings": 588, "share": 20.42, "rank": 3}, {"skill": "airflow", "postings": 572, "share": 19.86, "rank": 4}, {"skill": "scala", "postings": 569, "share": 19.76, "rank": 5}, {"skill": "azure", "postings": 552, "share": 19.17, "rank": 6}, {"skill": "kafka", "postings": 548, "share": 19.03, "rank": 7}, {"skill": "hive", "postings": 545, "share": 18.92, "rank": 8}, {"skill": "spark", "postings": 541, "share": 18.78, "rank": 9}, {"skill": "gcp", "postings": 538, "share": 18.68, "rank": 10}], "2025-02": [{"skill": "snowflake", "postings": 806, "share": 27.99, "rank": 1}, {"skill": "databricks", "postings": 634, "share": 22.01, "rank": 2}, {"skill": "azure", "postings": 607, "share": 21.08, "rank": 3}, {"skill": "kafka", "postings": 574, "share": 19.93, "rank": 4}, {"skill": "kubernetes", "postings": 559, "share": 19.41, "rank": 5}, {"skill": "python", "postings": 559, "share": 19.41, "rank": 6}, {"skill": "hive", "postings": 555, "share": 19.27, "rank": 7}, {"skill": "sql", "postings": 555, "share": 19.27, "rank": 8}, {"skill": "terraform", "postings": 543, "share": 18.85, "rank": 9}, {"skill": "powerbi", "postings": 541, "share": 18.78, "rank": 10}], "2025-03": [{"skill": "snowflake", "postings": 828, "share": 28.75, "rank": 1}, {"skill": "databricks", "postings": 652, "share": 22.64, "rank": 2}, {"skill": "kafka", "postings": 566, "share": 19.65, "rank": 3}, {"skill": "tableau", "postings": 557, "share": 19.34, "rank": 4}, {"skill": "spark", "postings": 556, "share": 19.31, "rank": 5}, {"skill": "azure", "postings": 550, "share": 19.1, "rank": 6}, {"skill": "airflow", "postings": 545, "share": 18.92, "rank": 7}, {"skill": "kubernetes", "postings": 544, "share": 18.89, "rank": 8}, {"skill": "terraform", "postings": 544, "share": 18.89, "rank": 9}, {"skill": "hive", "postings": 537, "share": 18.65, "rank": 10}], "2025-04": [{"skill": "snowflake", "postings": 850, "share": 29.51, "rank": 1}, {"skill": "databricks", "postings": 670, "share": 23.26, "rank": 2}, {"skill": "java", "postings": 566, "share": 19.65, "rank": 3}, {"skill": "tableau", "postings": 561, "share": 19.48, "rank": 4}, {"skill": "scala", "postings": 556, "share": 19.31, "rank": 5}, {"skill": "hive", "postings": 553, "share": 19.2, "rank": 6}, {"skill": "kubernetes", "postings": 553, "share": 19.2, "rank": 7}, {"skill": "sql", "postings": 553, "share": 19.2, "rank": 8}, {"skill": "python", "postings": 544, "share": 18.89, "rank": 9}, {"skill": "aws", "postings": 541, "share": 18.78, "rank": 10}], "2025-05": [{"skill": "snowflake", "postings": 872, "share": 30.28, "rank": 1}, {"skill": "databricks", "postings": 688, "share": 23.89, "rank": 2}, {"skill": "powerbi", "postings": 585, "share": 20.31, "rank": 3}, {"skill": "docker", "postings": 574, "share": 19.93, "rank": 4}, {"skill": "airflow", "postings": 556, "share": 19.31, "rank": 5}, {"skill": "terraform", "postings": 554, "share": 19.24, "rank": 6}, {"skill": "aws", "postings": 552, "share": 19.17, "rank": 7}, {"skill": "kafka", "postings": 543, "share": 18.85, "rank": 8}, {"skill": "python", "postings": 543, "share": 18.85, "rank": 9}, {"skill": "kubernetes", "postings": 539, "share": 18.72, "rank": 10}], "2025-06": [{"skill": "snowflake", "postings": 894, "share": 31.04, "rank": 1}, {"skill": "databricks", "postings": 706, "share": 24.51, "rank": 2}, {"skill": "python", "postings": 563, "share": 19.55, "rank": 3}, {"skill": "azure", "postings": 558, "share": 19.38, "rank": 4}, {"skill": "docker", "postings": 556, "share": 19.31, "rank": 5}, {"skill": "tableau", "postings": 553, "share": 19.2, "rank": 6}, {"skill": "spark", "postings": 551, "share": 19.13, "rank": 7}, {"skill": "gcp", "postings": 547, "share": 18.99, "rank": 8}, {"skill": "sql", "postings": 547, "share": 18.99, "rank": 9}, {"skill": "airflow", "postings": 540, "share": 18.75, "rank": 10}]}, "growth_latest_quarter": [{"skill": "databricks", "quarter": "2025Q2", "previous_quarter": 1902, "current_quarter": 2064, "change": 162, "growth_pct": 8.5}, {"skill": "dbt", "quarter": "2025Q2", "previous_quarter": 1209, "current_quarter": 1308, "change": 99, "growth_pct": 8.2}, {"skill": "snowflake", "quarter": "2025Q2", "previous_quarter": 2418, "current_quarter": 2616, "change": 198, "growth_pct": 8.2}, {"skill": "python", "quarter": "2025Q2", "previous_quarter": 1594, "current_quarter": 1650, "change": 56, "growth_pct": 3.5}, {"skill": "powerbi", "quarter": "2025Q2", "previous_quarter": 1577, "current_quarter": 1622, "change": 45, "growth_pct": 2.9}, {"skill": "aws", "quarter": "2025Q2", "previous_quarter": 1586, "current_quarter": 1624, "change": 38, "growth_pct": 2.4}, {"skill": "tableau", "quarter": "2025Q2", "previous_quarter": 1602, "current_quarter": 1637, "change": 35, "growth_pct": 2.2}, {"skill": "java", "quarter": "2025Q2", "previous_quarter": 1560, "current_quarter": 1587, "change": 27, "growth_pct": 1.7}, {"skill": "sql", "quarter": "2025Q2", "previous_quarter": 1614, "current_quarter": 1636, "change": 22, "growth_pct": 1.4}, {"skill": "airflow", "quarter": "2025Q2", "previous_quarter": 1628, "current_quarter": 1626, "change": -2, "growth_pct": -0.1}, {"skill": "spark", "quarter": "2025Q2", "previous_quarter": 1624, "current_quarter": 1621, "change": -3, "growth_pct": -0.2}, {"skill": "docker", "quarter": "2025Q2", "previous_quarter": 1647, "current_quarter": 1639, "change": -8, "growth_pct": -0.5}, {"skill": "gcp", "quarter": "2025Q2", "previous_quarter": 1590, "current_quarter": 1577, "change": -13, "growth_pct": -0.8}, {"skill": "hive", "quarter": "2025Q2", "previous_quarter": 1637, "current_quarter": 1612, "change": -25, "growth_pct": -1.5}, {"skill": "kubernetes", "quarter": "2025Q2", "previous_quarter": 1628, "current_quarter": 1599, "change": -29, "growth_pct": -1.8}, {"skill": "terraform", "quarter": "2025Q2", "previous_quarter": 1622, "current_quarter": 1593, "change": -29, "growth_pct": -1.8}, {"skill": "scala", "quarter": "2025Q2", "previous_quarter": 1639, "current_quarter": 1595, "change": -44, "growth_pct": -2.7}, {"skill": "kafka", "quarter": "2025Q2", "previous_quarter": 1688, "current_quarter": 1587, "change": -101, "growth_pct": -6.0}, {"skill": "azure", "quarter": "2025Q2", "previous_quarter": 1709, "current_quarter": 1558, "change": -151, "growth_pct": -8.8}, {"skill": "hadoop", "quarter": "2025Q2", "previous_quarter": 1098, "current_quarter": 756, "change": -342, "growth_pct": -31.1}], "quarter_history": {"airflow": [{"quarter": "2024Q1", "postings": 1581}, {"quarter": "2024Q2", "postings": 1577}, {"quarter": "2024Q3", "postings": 1567}, {"quarter": "2024Q4", "postings": 1637}, {"quarter": "2025Q1", "postings": 1628}, {"quarter": "2025Q2", "postings": 1626}], "aws": [{"quarter": "2024Q1", "postings": 1608}, {"quarter": "2024Q2", "postings": 1580}, {"quarter": "2024Q3", "postings": 1565}, {"quarter": "2024Q4", "postings": 1601}, {"quarter": "2025Q1", "postings": 1586}, {"quarter": "2025Q2", "postings": 1624}], "azure": [{"quarter": "2024Q1", "postings": 1600}, {"quarter": "2024Q2", "postings": 1618}, {"quarter": "2024Q3", "postings": 1666}, {"quarter": "2024Q4", "postings": 1608}, {"quarter": "2025Q1", "postings": 1709}, {"quarter": "2025Q2", "postings": 1558}], "databricks": [{"quarter": "2024Q1", "postings": 1254}, {"quarter": "2024Q2", "postings": 1416}, {"quarter": "2024Q3", "postings": 1578}, {"quarter": "2024Q4", "postings": 1740}, {"quarter": "2025Q1", "postings": 1902}, {"quarter": "2025Q2", "postings": 2064}], "dbt": [{"quarter": "2024Q1", "postings": 813}, {"quarter": "2024Q2", "postings": 912}, {"quarter": "2024Q3", "postings": 1011}, {"quarter": "2024Q4", "postings": 1110}, {"quarter": "2025Q1", "postings": 1209}, {"quarter": "2025Q2", "postings": 1308}], "docker": [{"quarter": "2024Q1", "postings": 1627}, {"quarter": "2024Q2", "postings": 1588}, {"quarter": "2024Q3", "postings": 1596}, {"quarter": "2024Q4", "postings": 1619}, {"quarter": "2025Q1", "postings": 1647}, {"quarter": "2025Q2", "postings": 1639}], "gcp": [{"quarter": "2024Q1", "postings": 1639}, {"quarter": "2024Q2", "postings": 1634}, {"quarter": "2024Q3", "postings": 1606}, {"quarter": "2024Q4", "postings": 1580}, {"quarter": "2025Q1", "postings": 1590}, {"quarter": "2025Q2", "postings": 1577}], "hadoop": [{"quarter": "2024Q1", "postings": 2466}, {"quarter": "2024Q2", "postings": 2124}, {"quarter": "2024Q3", "postings": 1782}, {"quarter": "2024Q4", "postings": 1440}, {"quarter": "2025Q1", "postings": 1098}, {"quarter": "2025Q2", "postings": 756}], "hive": [{"quarter": "2024Q1", "postings": 1553}, {"quarter": "2024Q2", "postings": 1665}, {"quarter": "2024Q3", "postings": 1610}, {"quarter": "2024Q4", "postings": 1605}, {"quarter": "2025Q1", "postings": 1637}, {"quarter": "2025Q2", "postings": 1612}], "java": [{"quarter": "2024Q1", "postings": 1580}, {"quarter": "2024Q2", "postings": 1578}, {"quarter": "2024Q3", "postings": 1689}, {"quarter": "2024Q4", "postings": 1603}, {"quarter": "2025Q1", "postings": 1560}, {"quarter": "2025Q2", "postings": 1587}], "kafka": [{"quarter": "2024Q1", "postings": 1577}, {"quarter": "2024Q2", "postings": 1588}, {"quarter": "2024Q3", "postings": 1636}, {"quarter": "2024Q4", "postings": 1640}, {"quarter": "2025Q1", "postings": 1688}, {"quarter": "2025Q2", "postings": 1587}], "kubernetes": [{"quarter": "2024Q1", "postings": 1672}, {"quarter": "2024Q2", "postings": 1622}, {"quarter": "2024Q3", "postings": 1582}, {"quarter": "2024Q4", "postings": 1626}, {"quarter": "2025Q1", "postings": 1628}, {"quarter": "2025Q2", "postings": 1599}], "powerbi": [{"quarter": "2024Q1", "postings": 1610}, {"quarter": "2024Q2", "postings": 1689}, {"quarter": "2024Q3", "postings": 1649}, {"quarter": "2024Q4", "postings": 1614}, {"quarter": "2025Q1", "postings": 1577}, {"quarter": "2025Q2", "postings": 1622}], "python": [{"quarter": "2024Q1", "postings": 1647}, {"quarter": "2024Q2", "postings": 1628}, {"quarter": "2024Q3", "postings": 1600}, {"quarter": "2024Q4", "postings": 1628}, {"quarter": "2025Q1", "postings": 1594}, {"quarter": "2025Q2", "postings": 1650}], "scala": [{"quarter": "2024Q1", "postings": 1660}, {"quarter": "2024Q2", "postings": 1635}, {"quarter": "2024Q3", "postings": 1628}, {"quarter": "2024Q4", "postings": 1687}, {"quarter": "2025Q1", "postings": 1639}, {"quarter": "2025Q2", "postings": 1595}], "snowflake": [{"quarter": "2024Q1", "postings": 1626}, {"quarter": "2024Q2", "postings": 1824}, {"quarter": "2024Q3", "postings": 2022}, {"quarter": "2024Q4", "postings": 2220}, {"quarter": "2025Q1", "postings": 2418}, {"quarter": "2025Q2", "postings": 2616}], "spark": [{"quarter": "2024Q1", "postings": 1651}, {"quarter": "2024Q2", "postings": 1565}, {"quarter": "2024Q3", "postings": 1657}, {"quarter": "2024Q4", "postings": 1636}, {"quarter": "2025Q1", "postings": 1624}, {"quarter": "2025Q2", "postings": 1621}], "sql": [{"quarter": "2024Q1", "postings": 1602}, {"quarter": "2024Q2", "postings": 1630}, {"quarter": "2024Q3", "postings": 1641}, {"quarter": "2024Q4", "postings": 1576}, {"quarter": "2025Q1", "postings": 1614}, {"quarter": "2025Q2", "postings": 1636}], "tableau": [{"quarter": "2024Q1", "postings": 1648}, {"quarter": "2024Q2", "postings": 1580}, {"quarter": "2024Q3", "postings": 1629}, {"quarter": "2024Q4", "postings": 1635}, {"quarter": "2025Q1", "postings": 1602}, {"quarter": "2025Q2", "postings": 1637}], "terraform": [{"quarter": "2024Q1", "postings": 1617}, {"quarter": "2024Q2", "postings": 1655}, {"quarter": "2024Q3", "postings": 1640}, {"quarter": "2024Q4", "postings": 1642}, {"quarter": "2025Q1", "postings": 1622}, {"quarter": "2025Q2", "postings": 1593}]}, "relationships": {"airflow": [{"companion": "snowflake", "pair_postings": 2384, "confidence": 24.74, "lift": 1.01}, {"companion": "databricks", "pair_postings": 1804, "confidence": 18.71, "lift": 0.98}, {"companion": "hadoop", "pair_postings": 1763, "confidence": 18.4, "lift": 0.99}, {"companion": "python", "pair_postings": 1513, "confidence": 15.74, "lift": 0.84}, {"companion": "terraform", "pair_postings": 1478, "confidence": 15.37, "lift": 0.82}, {"companion": "gcp", "pair_postings": 1458, "confidence": 15.17, "lift": 0.82}, {"companion": "docker", "pair_postings": 1452, "confidence": 15.1, "lift": 0.81}, {"companion": "tableau", "pair_postings": 1451, "confidence": 15.11, "lift": 0.81}, {"companion": "hive", "pair_postings": 1428, "confidence": 14.86, "lift": 0.8}, {"companion": "kafka", "pair_postings": 1416, "confidence": 14.72, "lift": 0.78}], "aws": [{"companion": "snowflake", "pair_postings": 2386, "confidence": 24.93, "lift": 1.01}, {"companion": "databricks", "pair_postings": 1840, "confidence": 19.22, "lift": 1.01}, {"companion": "hadoop", "pair_postings": 1760, "confidence": 18.43, "lift": 0.98}, {"companion": "docker", "pair_postings": 1478, "confidence": 15.47, "lift": 0.83}, {"companion": "spark", "pair_postings": 1471, "confidence": 15.39, "lift": 0.82}, {"companion": "powerbi", "pair_postings": 1441, "confidence": 15.06, "lift": 0.8}, {"companion": "kafka", "pair_postings": 1435, "confidence": 15.02, "lift": 0.8}, {"companion": "terraform", "pair_postings": 1424, "confidence": 14.88, "lift": 0.79}, {"companion": "tableau", "pair_postings": 1417, "confidence": 14.81, "lift": 0.79}, {"companion": "java", "pair_postings": 1410, "confidence": 14.74, "lift": 0.8}], "azure": [{"companion": "snowflake", "pair_postings": 2381, "confidence": 24.38, "lift": 0.99}, {"companion": "databricks", "pair_postings": 1855, "confidence": 18.99, "lift": 0.98}, {"companion": "hadoop", "pair_postings": 1819, "confidence": 18.66, "lift": 0.99}, {"companion": "spark", "pair_postings": 1509, "confidence": 15.45, "lift": 0.82}, {"companion": "docker", "pair_postings": 1500, "confidence": 15.36, "lift": 0.82}, {"companion": "kubernetes", "pair_postings": 1488, "confidence": 15.22, "lift": 0.81}, {"companion": "sql", "pair_postings": 1477, "confidence": 15.16, "lift": 0.81}, {"companion": "kafka", "pair_postings": 1469, "confidence": 15.03, "lift": 0.8}, {"companion": "python", "pair_postings": 1468, "confidence": 15.03, "lift": 0.8}, {"companion": "terraform", "pair_postings": 1444, "confidence": 14.81, "lift": 0.79}], "databricks": [{"companion": "spark", "pair_postings": 1957, "confidence": 19.69, "lift": 1.05}, {"companion": "powerbi", "pair_postings": 1919, "confidence": 19.35, "lift": 1.03}, {"companion": "tableau", "pair_postings": 1914, "confidence": 19.18, "lift": 1.02}, {"companion": "docker", "pair_postings": 1910, "confidence": 19.25, "lift": 1.03}, {"companion": "scala", "pair_postings": 1882, "confidence": 18.97, "lift": 1.0}, {"companion": "java", "pair_postings": 1874, "confidence": 18.92, "lift": 1.02}, {"companion": "python", "pair_postings": 1871, "confidence": 18.72, "lift": 1.0}, {"companion": "hive", "pair_postings": 1866, "confidence": 18.73, "lift": 1.0}, {"companion": "kafka", "pair_postings": 1858, "confidence": 18.51, "lift": 0.99}, {"companion": "azure", "pair_postings": 1855, "confidence": 18.55, "lift": 0.98}], "dbt": [{"companion": "snowflake", "pair_postings": 6363, "confidence": 100.0, "lift": 4.18}, {"companion": "terraform", "pair_postings": 1226, "confidence": 19.38, "lift": 1.03}, {"companion": "python", "pair_postings": 1218, "confidence": 19.14, "lift": 1.02}, {"companion": "tableau", "pair_postings": 1217, "confidence": 19.25, "lift": 1.02}, {"companion": "docker", "pair_postings": 1215, "confidence": 19.05, "lift": 1.02}, {"companion": "kubernetes", "pair_postings": 1214, "confidence": 19.24, "lift": 1.02}, {"companion": "scala", "pair_postings": 1205, "confidence": 18.87, "lift": 0.99}, {"companion": "gcp", "pair_postings": 1205, "confidence": 18.88, "lift": 1.02}, {"companion": "sql", "pair_postings": 1205, "confidence": 18.95, "lift": 1.01}, {"companion": "powerbi", "pair_postings": 1202, "confidence": 18.92, "lift": 1.01}], "docker": [{"companion": "snowflake", "pair_postings": 2410, "confidence": 24.76, "lift": 1.01}, {"companion": "databricks", "pair_postings": 1910, "confidence": 19.67, "lift": 1.03}, {"companion": "hadoop", "pair_postings": 1821, "confidence": 18.8, "lift": 1.03}, {"companion": "azure", "pair_postings": 1500, "confidence": 15.41, "lift": 0.82}, {"companion": "hive", "pair_postings": 1479, "confidence": 15.23, "lift": 0.81}, {"companion": "aws", "pair_postings": 1478, "confidence": 15.22, "lift": 0.83}, {"companion": "tableau", "pair_postings": 1477, "confidence": 15.22, "lift": 0.81}, {"companion": "spark", "pair_postings": 1457, "confidence": 14.96, "lift": 0.79}, {"companion": "airflow", "pair_postings": 1452, "confidence": 14.93, "lift": 0.81}, {"companion": "terraform", "pair_postings": 1443, "confidence": 14.85, "lift": 0.79}], "gcp": [{"companion": "snowflake", "pair_postings": 2366, "confidence": 24.61, "lift": 1.0}, {"companion": "hadoop", "pair_postings": 1831, "confidence": 18.95, "lift": 1.03}, {"companion": "databricks", "pair_postings": 1818, "confidence": 18.94, "lift": 0.99}, {"companion": "hive", "pair_postings": 1496, "confidence": 15.57, "lift": 0.83}, {"companion": "scala", "pair_postings": 1467, "confidence": 15.24, "lift": 0.8}, {"companion": "airflow", "pair_postings": 1458, "confidence": 15.15, "lift": 0.82}, {"companion": "terraform", "pair_postings": 1457, "confidence": 15.14, "lift": 0.8}, {"companion": "kafka", "pair_postings": 1452, "confidence": 15.08, "lift": 0.8}, {"companion": "sql", "pair_postings": 1448, "confidence": 15.05, "lift": 0.8}, {"companion": "java", "pair_postings": 1436, "confidence": 14.92, "lift": 0.81}], "hadoop": [{"companion": "kubernetes", "pair_postings": 1879, "confidence": 19.39, "lift": 1.03}, {"companion": "tableau", "pair_postings": 1853, "confidence": 19.2, "lift": 1.02}, {"companion": "scala", "pair_postings": 1845, "confidence": 18.99, "lift": 1.0}, {"companion": "gcp", "pair_postings": 1831, "confidence": 19.06, "lift": 1.03}, {"companion": "kafka", "pair_postings": 1828, "confidence": 18.93, "lift": 1.01}, {"companion": "hive", "pair_postings": 1826, "confidence": 18.94, "lift": 1.01}, {"companion": "docker", "pair_postings": 1821, "confidence": 19.26, "lift": 1.03}, {"companion": "azure", "pair_postings": 1819, "confidence": 18.63, "lift": 0.99}, {"companion": "terraform", "pair_postings": 1814, "confidence": 18.82, "lift": 1.0}, {"companion": "powerbi", "pair_postings": 1793, "confidence": 18.55, "lift": 0.98}], "hive": [{"companion": "snowflake", "pair_postings": 2349, "confidence": 24.26, "lift": 0.98}, {"companion": "databricks", "pair_postings": 1866, "confidence": 19.25, "lift": 1.0}, {"companion": "hadoop", "pair_postings": 1826, "confidence": 18.88, "lift": 1.01}, {"companion": "gcp", "pair_postings": 1496, "confidence": 15.46, "lift": 0.83}, {"companion": "docker", "pair_postings": 1479, "confidence": 15.27, "lift": 0.81}, {"companion": "tableau", "pair_postings": 1460, "confidence": 15.09, "lift": 0.8}, {"companion": "python", "pair_postings": 1455, "confidence": 15.04, "lift": 0.8}, {"companion": "sql", "pair_postings": 1455, "confidence": 15.02, "lift": 0.8}, {"companion": "kubernetes", "pair_postings": 1453, "confidence": 14.97, "lift": 0.8}, {"companion": "spark", "pair_postings": 1450, "confidence": 14.98, "lift": 0.8}], "java": [{"companion": "snowflake", "pair_postings": 2359, "confidence": 24.62, "lift": 1.0}, {"companion": "databricks", "pair_postings": 1874, "confidence": 19.55, "lift": 1.02}, {"companion": "hadoop", "pair_postings": 1790, "confidence": 18.61, "lift": 1.0}, {"companion": "scala", "pair_postings": 1467, "confidence": 15.26, "lift": 0.8}, {"companion": "spark", "pair_postings": 1452, "confidence": 15.14, "lift": 0.8}, {"companion": "hive", "pair_postings": 1446, "confidence": 15.08, "lift": 0.81}, {"companion": "azure", "pair_postings": 1438, "confidence": 15.02, "lift": 0.8}, {"companion": "gcp", "pair_postings": 1436, "confidence": 14.96, "lift": 0.81}, {"companion": "powerbi", "pair_postings": 1431, "confidence": 14.9, "lift": 0.79}, {"companion": "terraform", "pair_postings": 1424, "confidence": 14.84, "lift": 0.79}], "kafka": [{"companion": "snowflake", "pair_postings": 2373, "confidence": 24.38, "lift": 1.0}, {"companion": "databricks", "pair_postings": 1858, "confidence": 19.08, "lift": 0.99}, {"companion": "hadoop", "pair_postings": 1828, "confidence": 18.89, "lift": 1.01}, {"companion": "tableau", "pair_postings": 1473, "confidence": 15.16, "lift": 0.81}, {"companion": "spark", "pair_postings": 1472, "confidence": 15.13, "lift": 0.8}, {"companion": "azure", "pair_postings": 1469, "confidence": 15.1, "lift": 0.8}, {"companion": "terraform", "pair_postings": 1463, "confidence": 15.06, "lift": 0.8}, {"companion": "gcp", "pair_postings": 1452, "confidence": 14.93, "lift": 0.8}, {"companion": "python", "pair_postings": 1443, "confidence": 14.86, "lift": 0.79}, {"companion": "kubernetes", "pair_postings": 1442, "confidence": 14.85, "lift": 0.79}], "kubernetes": [{"companion": "snowflake", "pair_postings": 2400, "confidence": 24.69, "lift": 1.01}, {"companion": "hadoop", "pair_postings": 1879, "confidence": 19.26, "lift": 1.03}, {"companion": "databricks", "pair_postings": 1849, "confidence": 19.03, "lift": 0.99}, {"companion": "tableau", "pair_postings": 1498, "confidence": 15.38, "lift": 0.82}, {"companion": "spark", "pair_postings": 1489, "confidence": 15.29, "lift": 0.81}, {"companion": "azure", "pair_postings": 1488, "confidence": 15.3, "lift": 0.81}, {"companion": "python", "pair_postings": 1475, "confidence": 15.14, "lift": 0.81}, {"companion": "hive", "pair_postings": 1453, "confidence": 14.92, "lift": 0.8}, {"companion": "terraform", "pair_postings": 1453, "confidence": 14.95, "lift": 0.79}, {"companion": "kafka", "pair_postings": 1442, "confidence": 14.81, "lift": 0.79}], "powerbi": [{"companion": "snowflake", "pair_postings": 2412, "confidence": 24.75, "lift": 1.01}, {"companion": "databricks", "pair_postings": 1919, "confidence": 19.71, "lift": 1.03}, {"companion": "hadoop", "pair_postings": 1793, "confidence": 18.31, "lift": 0.98}, {"companion": "terraform", "pair_postings": 1501, "confidence": 15.37, "lift": 0.82}, {"companion": "scala", "pair_postings": 1498, "confidence": 15.37, "lift": 0.81}, {"companion": "aws", "pair_postings": 1441, "confidence": 14.77, "lift": 0.8}, {"companion": "kubernetes", "pair_postings": 1439, "confidence": 14.74, "lift": 0.79}, {"companion": "hive", "pair_postings": 1435, "confidence": 14.69, "lift": 0.79}, {"companion": "azure", "pair_postings": 1435, "confidence": 14.7, "lift": 0.78}, {"companion": "java", "pair_postings": 1431, "confidence": 14.65, "lift": 0.79}], "python": [{"companion": "snowflake", "pair_postings": 2409, "confidence": 24.72, "lift": 1.01}, {"companion": "databricks", "pair_postings": 1871, "confidence": 19.2, "lift": 1.0}, {"companion": "hadoop", "pair_postings": 1765, "confidence": 18.1, "lift": 0.96}, {"companion": "airflow", "pair_postings": 1513, "confidence": 15.53, "lift": 0.84}, {"companion": "tableau", "pair_postings": 1503, "confidence": 15.4, "lift": 0.82}, {"companion": "scala", "pair_postings": 1498, "confidence": 15.38, "lift": 0.81}, {"companion": "spark", "pair_postings": 1490, "confidence": 15.28, "lift": 0.81}, {"companion": "kubernetes", "pair_postings": 1475, "confidence": 15.14, "lift": 0.81}, {"companion": "azure", "pair_postings": 1468, "confidence": 15.07, "lift": 0.8}, {"companion": "hive", "pair_postings": 1455, "confidence": 14.91, "lift": 0.8}], "scala": [{"companion": "snowflake", "pair_postings": 2404, "confidence": 24.44, "lift": 1.0}, {"companion": "databricks", "pair_postings": 1882, "confidence": 19.14, "lift": 1.0}, {"companion": "hadoop", "pair_postings": 1845, "confidence": 18.7, "lift": 1.0}, {"companion": "sql", "pair_postings": 1498, "confidence": 15.22, "lift": 0.81}, {"companion": "python", "pair_postings": 1498, "confidence": 15.24, "lift": 0.81}, {"companion": "powerbi", "pair_postings": 1498, "confidence": 15.22, "lift": 0.81}, {"companion": "terraform", "pair_postings": 1475, "confidence": 14.99, "lift": 0.79}, {"companion": "gcp", "pair_postings": 1467, "confidence": 14.92, "lift": 0.8}, {"companion": "java", "pair_postings": 1467, "confidence": 14.89, "lift": 0.8}, {"companion": "spark", "pair_postings": 1459, "confidence": 14.82, "lift": 0.79}], "snowflake": [{"companion": "dbt", "pair_postings": 6363, "confidence": 50.0, "lift": 4.18}, {"companion": "powerbi", "pair_postings": 2412, "confidence": 18.94, "lift": 1.01}, {"companion": "docker", "pair_postings": 2410, "confidence": 18.94, "lift": 1.01}, {"companion": "python", "pair_postings": 2409, "confidence": 19.03, "lift": 1.01}, {"companion": "scala", "pair_postings": 2404, "confidence": 18.93, "lift": 1.0}, {"companion": "kubernetes", "pair_postings": 2400, "confidence": 18.9, "lift": 1.01}, {"companion": "tableau", "pair_postings": 2391, "confidence": 18.84, "lift": 1.0}, {"companion": "spark", "pair_postings": 2386, "confidence": 18.79, "lift": 1.0}, {"companion": "aws", "pair_postings": 2386, "confidence": 18.7, "lift": 1.01}, {"companion": "airflow", "pair_postings": 2384, "confidence": 18.76, "lift": 1.01}], "spark": [{"companion": "snowflake", "pair_postings": 2386, "confidence": 24.45, "lift": 1.0}, {"companion": "databricks", "pair_postings": 1957, "confidence": 20.06, "lift": 1.05}, {"companion": "hadoop", "pair_postings": 1791, "confidence": 18.34, "lift": 0.98}, {"companion": "azure", "pair_postings": 1509, "confidence": 15.46, "lift": 0.82}, {"companion": "sql", "pair_postings": 1493, "confidence": 15.3, "lift": 0.82}, {"companion": "python", "pair_postings": 1490, "confidence": 15.28, "lift": 0.81}, {"companion": "kubernetes", "pair_postings": 1489, "confidence": 15.25, "lift": 0.81}, {"companion": "kafka", "pair_postings": 1472, "confidence": 15.08, "lift": 0.8}, {"companion": "aws", "pair_postings": 1471, "confidence": 15.09, "lift": 0.82}, {"companion": "scala", "pair_postings": 1459, "confidence": 14.98, "lift": 0.79}], "sql": [{"companion": "snowflake", "pair_postings": 2355, "confidence": 24.28, "lift": 0.99}, {"companion": "databricks", "pair_postings": 1838, "confidence": 18.95, "lift": 0.98}, {"companion": "hadoop", "pair_postings": 1785, "confidence": 18.43, "lift": 0.99}, {"companion": "scala", "pair_postings": 1498, "confidence": 15.44, "lift": 0.81}, {"companion": "spark", "pair_postings": 1493, "confidence": 15.41, "lift": 0.82}, {"companion": "azure", "pair_postings": 1477, "confidence": 15.24, "lift": 0.81}, {"companion": "hive", "pair_postings": 1455, "confidence": 15.0, "lift": 0.8}, {"companion": "gcp", "pair_postings": 1448, "confidence": 14.93, "lift": 0.8}, {"companion": "terraform", "pair_postings": 1431, "confidence": 14.75, "lift": 0.78}, {"companion": "tableau", "pair_postings": 1428, "confidence": 14.74, "lift": 0.78}], "tableau": [{"companion": "snowflake", "pair_postings": 2391, "confidence": 24.57, "lift": 1.0}, {"companion": "databricks", "pair_postings": 1914, "confidence": 19.67, "lift": 1.02}, {"companion": "hadoop", "pair_postings": 1853, "confidence": 19.06, "lift": 1.02}, {"companion": "python", "pair_postings": 1503, "confidence": 15.45, "lift": 0.82}, {"companion": "kubernetes", "pair_postings": 1498, "confidence": 15.4, "lift": 0.82}, {"companion": "docker", "pair_postings": 1477, "confidence": 15.19, "lift": 0.81}, {"companion": "terraform", "pair_postings": 1474, "confidence": 15.15, "lift": 0.8}, {"companion": "kafka", "pair_postings": 1473, "confidence": 15.14, "lift": 0.81}, {"companion": "hive", "pair_postings": 1460, "confidence": 15.01, "lift": 0.8}, {"companion": "airflow", "pair_postings": 1451, "confidence": 14.93, "lift": 0.81}], "terraform": [{"companion": "snowflake", "pair_postings": 2376, "confidence": 24.35, "lift": 0.99}, {"companion": "databricks", "pair_postings": 1832, "confidence": 18.78, "lift": 0.97}, {"companion": "hadoop", "pair_postings": 1814, "confidence": 18.53, "lift": 1.0}, {"companion": "powerbi", "pair_postings": 1501, "confidence": 15.35, "lift": 0.82}, {"companion": "airflow", "pair_postings": 1478, "confidence": 15.13, "lift": 0.82}, {"companion": "scala", "pair_postings": 1475, "confidence": 15.07, "lift": 0.79}, {"companion": "tableau", "pair_postings": 1474, "confidence": 15.11, "lift": 0.8}, {"companion": "kafka", "pair_postings": 1463, "confidence": 14.95, "lift": 0.8}, {"companion": "gcp", "pair_postings": 1457, "confidence": 14.92, "lift": 0.8}, {"companion": "spark", "pair_postings": 1454, "confidence": 14.88, "lift": 0.79}]}, "data_quality": {"raw_postings": 55350, "duplicates_removed": 1350, "clean_postings": 54000, "missing_or_notspecified": 1350, "unknown_company": 540, "invalid_date": 270, "valid_postings": 51840, "raw_skill_variants": 57, "canonical_skills": 20, "quality_score_pct": 96.0}, "tracked_skills": {"Snowflake": 12726, "Databricks": 9954, "Hadoop": 9666, "dbt": 6363}}</script>
+<script>
+(function(){
+"use strict";
+const DATA = JSON.parse(document.getElementById('dashboard-data').textContent);
+const SKILLS = DATA.meta.skills;
+const MONTHS = DATA.meta.months;
+const TRACKED = ["snowflake","databricks","hadoop","dbt"];
+const SERIES_COLORS = ["#B96F1E","#1F6F6B","#7A6FB9","#B23B3B","#3B7FB2","#8A8F97"];
+
+function cssColor(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+const DISPLAY_NAMES = {
+  python:"Python", sql:"SQL", spark:"Spark", airflow:"Airflow", kafka:"Kafka", hive:"Hive",
+  aws:"AWS", azure:"Azure", gcp:"GCP", docker:"Docker", kubernetes:"Kubernetes",
+  terraform:"Terraform", scala:"Scala", java:"Java", powerbi:"PowerBI", tableau:"Tableau",
+  snowflake:"Snowflake", databricks:"Databricks", hadoop:"Hadoop", dbt:"dbt"
+};
+function titleCase(s){ return DISPLAY_NAMES[s] || (s.charAt(0).toUpperCase()+s.slice(1)); }
+function fmt(n){ return n.toLocaleString('en-US'); }
+function monthLabel(m){ const [y,mo]=m.split('-'); const names=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return names[parseInt(mo,10)-1]+" '"+y.slice(2); }
+
+/* ---------- tiny SVG chart helpers (no external library) ---------- */
+function lineChart(opts){
+  // opts: {width,height,series:[{name,color,points:[{x label idx, y}]}], xLabels, yFormat, yMax}
+  const W = opts.width || 640, H = opts.height || 260;
+  const padL = 42, padR = 14, padT = 14, padB = 28;
+  const innerW = W - padL - padR, innerH = H - padT - padB;
+  let yMax = opts.yMax;
+  if (yMax === undefined) {
+    yMax = Math.max(1, ...opts.series.flatMap(s => s.points.map(p => p.y)));
+    yMax = yMax * 1.12;
+  }
+  const n = opts.xLabels.length;
+  const xStep = n > 1 ? innerW / (n - 1) : 0;
+  const xAt = i => padL + i * xStep;
+  const yAt = v => padT + innerH - (v / yMax) * innerH;
+
+  let gridlines = '';
+  const ticks = 4;
+  for (let t = 0; t <= ticks; t++) {
+    const v = (yMax / ticks) * t;
+    const y = yAt(v);
+    gridlines += `<line class="gridline" x1="${padL}" x2="${W-padR}" y1="${y}" y2="${y}"/>`;
+    gridlines += `<text x="${padL-8}" y="${y+3}" font-size="10" text-anchor="end">${opts.yFormat ? opts.yFormat(v) : Math.round(v)}</text>`;
+  }
+  let xlabels = '';
+  const showEvery = Math.ceil(n / 9);
+  for (let i = 0; i < n; i++) {
+    if (i % showEvery !== 0 && i !== n-1) continue;
+    xlabels += `<text x="${xAt(i)}" y="${H-8}" font-size="10" text-anchor="middle">${esc(opts.xLabels[i])}</text>`;
+  }
+  let paths = '';
+  opts.series.forEach(s => {
+    const d = s.points.map((p,i) => `${i===0?'M':'L'}${xAt(i).toFixed(1)},${yAt(p.y).toFixed(1)}`).join(' ');
+    paths += `<path d="${d}" fill="none" stroke="${s.color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+    s.points.forEach((p,i) => {
+      paths += `<circle cx="${xAt(i).toFixed(1)}" cy="${yAt(p.y).toFixed(1)}" r="2.4" fill="${s.color}"><title>${esc(s.name)} · ${esc(opts.xLabels[i])}: ${fmt(p.y)}</title></circle>`;
+    });
+  });
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" role="img" aria-label="line chart">
+    ${gridlines}
+    <line class="axis-line" x1="${padL}" x2="${padL}" y1="${padT}" y2="${H-padB}"/>
+    <line class="axis-line" x1="${padL}" x2="${W-padR}" y1="${H-padB}" y2="${H-padB}"/>
+    ${paths}${xlabels}
+  </svg>`;
+}
+
+function barChart(opts){
+  // opts: {width,height,bars:[{label,value,color}], yFormat}
+  const W = opts.width || 640, H = opts.height || 280;
+  const padL = 44, padR = 14, padT = 14, padB = 46;
+  const innerW = W - padL - padR, innerH = H - padT - padB;
+  const n = opts.bars.length;
+  const gap = 10;
+  const bw = (innerW - gap * (n-1)) / n;
+  const yMax = Math.max(1, ...opts.bars.map(b=>b.value)) * 112/1000 * 1000 / 1000 * 1.12;
+  const yAt = v => padT + innerH - (v/yMax)*innerH;
+  let gridlines = '';
+  for (let t=0;t<=4;t++){ const v=(yMax/4)*t; const y=yAt(v);
+    gridlines += `<line class="gridline" x1="${padL}" x2="${W-padR}" y1="${y}" y2="${y}"/>`;
+    gridlines += `<text x="${padL-8}" y="${y+3}" font-size="10" text-anchor="end">${opts.yFormat?opts.yFormat(v):Math.round(v)}</text>`;
+  }
+  let bars = '';
+  opts.bars.forEach((b,i)=>{
+    const x = padL + i*(bw+gap);
+    const y = yAt(b.value);
+    const h = (padT+innerH) - y;
+    bars += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" fill="${b.color}" rx="2"><title>${esc(b.label)}: ${fmt(b.value)}</title></rect>`;
+    bars += `<text x="${(x+bw/2).toFixed(1)}" y="${H-padB+16}" font-size="10.5" text-anchor="middle" transform="rotate(0)">${esc(b.label)}</text>`;
+  });
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" role="img" aria-label="bar chart">
+    ${gridlines}
+    <line class="axis-line" x1="${padL}" x2="${padL}" y1="${padT}" y2="${padT+innerH}"/>
+    <line class="axis-line" x1="${padL}" x2="${W-padR}" y1="${padT+innerH}" y2="${padT+innerH}"/>
+    ${bars}
+  </svg>`;
+}
+
+function hbarChart(opts){
+  // horizontal bars: opts.bars [{label, value, color}], maxLabelWidth
+  const W = opts.width || 560;
+  const rowH = 26, gap = 8;
+  const n = opts.bars.length;
+  const H = n * (rowH+gap);
+  const labelW = opts.labelWidth || 100;
+  const valueW = 56;
+  const trackW = W - labelW - valueW - 10;
+  const maxV = Math.max(1, ...opts.bars.map(b=>b.value));
+  let rows = '';
+  opts.bars.forEach((b,i)=>{
+    const y = i*(rowH+gap);
+    const w = (b.value/maxV) * trackW;
+    rows += `<text x="0" y="${y+rowH/2+4}" font-size="12">${esc(b.label)}</text>`;
+    rows += `<rect x="${labelW}" y="${y+3}" width="${trackW}" height="${rowH-6}" fill="var(--surface-2)" rx="3"/>`;
+    rows += `<rect x="${labelW}" y="${y+3}" width="${Math.max(2,w).toFixed(1)}" height="${rowH-6}" fill="${b.color}" rx="3"><title>${esc(b.label)}: ${fmt(b.value)}</title></rect>`;
+    rows += `<text x="${labelW+trackW+8}" y="${y+rowH/2+4}" font-size="12" text-anchor="start">${opts.valueFormat?opts.valueFormat(b.value):fmt(b.value)}</text>`;
+  });
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}">${rows}</svg>`;
+}
+
+/* ---------- page renderers ---------- */
+const pages = {};
+
+pages.overview = function(){
+  const kpi = DATA.meta.kpi;
+  const latestMonth = MONTHS[MONTHS.length-1];
+  const top10 = DATA.top10_by_month[latestMonth];
+  const prevMonth = MONTHS[MONTHS.length-2];
+  const trendSeries = TRACKED.map((s,i)=>({
+    name: titleCase(s), color: SERIES_COLORS[i],
+    points: DATA.skill_trends[s].map(r=>({x:r.month, y:r.postings}))
+  }));
+
+  return `
+  <div class="page-head">
+    <h1>Overview</h1>
+    <p>SkillPulse tracks which technical skills are gaining ground in job postings, using 18 months of cleaned, deduplicated listing data.</p>
+  </div>
+  <div class="grid kpis">
+    <div class="card"><div class="kpi-label">Job postings analyzed</div><div class="kpi-value">${fmt(kpi.total_postings)}</div><div class="kpi-sub">${fmt(kpi.valid_postings)} passed data-quality checks</div></div>
+    <div class="card"><div class="kpi-label">Companies</div><div class="kpi-value">${fmt(kpi.companies)}</div><div class="kpi-sub">across 8 sectors, 10 cities</div></div>
+    <div class="card"><div class="kpi-label">Tracked skills</div><div class="kpi-value">${kpi.canonical_skills}</div><div class="kpi-sub">normalized from 57 raw variants</div></div>
+    <div class="card"><div class="kpi-label">Months analyzed</div><div class="kpi-value">${kpi.months_analyzed}</div><div class="kpi-sub">${monthLabel(MONTHS[0])} – ${monthLabel(latestMonth)}</div></div>
+    <div class="card"><div class="kpi-label">Top skill this month</div><div class="kpi-value">${titleCase(kpi.top_current_skill)}</div><div class="kpi-sub">${kpi.top_current_skill_share}% of postings</div></div>
+    <div class="card"><div class="kpi-label">Fastest growing</div><div class="kpi-value">${titleCase(kpi.fastest_growing_skill)}</div><div class="kpi-sub up">+${kpi.fastest_growing_skill_pct}% QoQ</div></div>
+  </div>
+
+  <div class="grid two-col">
+    <div class="card">
+      <div class="section-title">Top 10 skills — ${monthLabel(latestMonth)}</div>
+      <div class="section-desc">Share of that month's ${fmt(Math.round(DATA.data_quality.valid_postings / MONTHS.length))} valid postings mentioning each skill.</div>
+      <div class="chart-wrap">${barChart({bars: top10.map((r,i)=>({label:titleCase(r.skill), value:r.postings, color: TRACKED.includes(r.skill)?"var(--amber)":"var(--teal)"})), height: 260})}</div>
+    </div>
+    <div class="card">
+      <div class="section-title">Latest month vs. previous</div>
+      <div class="section-desc">Tracked-skill postings, ${monthLabel(prevMonth)} → ${monthLabel(latestMonth)}</div>
+      <table>
+        <thead><tr><th>Skill</th><th class="num">${monthLabel(prevMonth)}</th><th class="num">${monthLabel(latestMonth)}</th><th class="num">Δ</th></tr></thead>
+        <tbody>
+        ${TRACKED.map(s=>{
+          const rows = DATA.skill_trends[s];
+          const prev = rows.find(r=>r.month===prevMonth), curr = rows.find(r=>r.month===latestMonth);
+          const delta = curr.postings - prev.postings;
+          return `<tr><td>${titleCase(s)}</td><td class="num">${fmt(prev.postings)}</td><td class="num">${fmt(curr.postings)}</td><td class="num ${delta>=0?'up':'down'}">${delta>=0?'+':''}${fmt(delta)}</td></tr>`;
+        }).join('')}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px;">
+    <div class="section-title">Skill demand trend — the four tracked skills</div>
+    <div class="section-desc">Monthly posting count, ${monthLabel(MONTHS[0])} through ${monthLabel(latestMonth)}.</div>
+    <div class="chart-wrap">${lineChart({series: trendSeries, xLabels: MONTHS.map(monthLabel), height: 280})}</div>
+    <div class="legend">${trendSeries.map(s=>`<div class="legend-item"><span class="legend-swatch" style="background:${s.color}"></span>${s.name}</div>`).join('')}</div>
+  </div>
+  `;
+};
+
+pages.trends = function(state){
+  state.trendSkills = state.trendSkills || ["snowflake","databricks","hadoop"];
+  state.trendMonthEnd = state.trendMonthEnd || MONTHS.length - 1;
+  state.trendMonthStart = state.trendMonthStart || 0;
+  state.trendMode = state.trendMode || "count";
+
+  const range = MONTHS.slice(state.trendMonthStart, state.trendMonthEnd+1);
+  const series = state.trendSkills.map((s,i)=>({
+    name: titleCase(s), color: SERIES_COLORS[i%SERIES_COLORS.length],
+    points: DATA.skill_trends[s].filter(r=>range.includes(r.month)).map(r=>({x:r.month, y: state.trendMode==='count'?r.postings:r.share}))
+  }));
+  const rankSeries = state.trendSkills.map((s,i)=>({
+    name: titleCase(s), color: SERIES_COLORS[i%SERIES_COLORS.length],
+    points: DATA.skill_trends[s].filter(r=>range.includes(r.month)).map(r=>({x:r.month, y: 21-r.rank}))
+  }));
+  const top10 = DATA.top10_by_month[range[range.length-1]];
+
+  return `
+  <div class="page-head">
+    <h1>Skill Trends</h1>
+    <p>Choose a month range and up to six skills to compare posting volume, market share, and rank movement over time.</p>
+  </div>
+  <div class="controls">
+    <select id="trendStart">${MONTHS.map((m,i)=>`<option value="${i}" ${i===state.trendMonthStart?'selected':''}>${monthLabel(m)}</option>`).join('')}</select>
+    <span style="align-self:center;color:var(--faint);font-size:12px;">to</span>
+    <select id="trendEnd">${MONTHS.map((m,i)=>`<option value="${i}" ${i===state.trendMonthEnd?'selected':''}>${monthLabel(m)}</option>`).join('')}</select>
+    <div class="chip-group" id="modeChips">
+      <button class="chip ${state.trendMode==='count'?'active':''}" data-mode="count">Posting count</button>
+      <button class="chip ${state.trendMode==='share'?'active':''}" data-mode="share">Market share %</button>
+    </div>
+  </div>
+  <div class="controls" id="skillChips">
+    ${SKILLS.map(s=>`<button class="chip ${state.trendSkills.includes(s)?'active':''}" data-skill="${s}">${titleCase(s)}</button>`).join('')}
+  </div>
+
+  <div class="card">
+    <div class="section-title">${state.trendMode==='count'?'Posting count':'Market share'} over time</div>
+    <div class="chart-wrap">${series.length ? lineChart({series, xLabels: range.map(monthLabel), height: 280, yFormat: v=>state.trendMode==='share'?Math.round(v)+'%':Math.round(v)}) : '<p style="color:var(--muted)">Select at least one skill.</p>'}</div>
+    <div class="legend">${series.map(s=>`<div class="legend-item"><span class="legend-swatch" style="background:${s.color}"></span>${s.name}</div>`).join('')}</div>
+  </div>
+
+  <div class="grid two-col" style="margin-top:14px;">
+    <div class="card">
+      <div class="section-title">Rank movement</div>
+      <div class="section-desc">Higher on the chart = closer to #1 that month.</div>
+      <div class="chart-wrap">${series.length ? lineChart({series: rankSeries, xLabels: range.map(monthLabel), height: 240, yMax: 20, yFormat: v=>21-Math.round(v)}) : ''}</div>
+    </div>
+    <div class="card">
+      <div class="section-title">Top 10 — ${monthLabel(range[range.length-1])}</div>
+      <table>
+        <thead><tr><th>#</th><th>Skill</th><th class="num">Postings</th></tr></thead>
+        <tbody>${top10.map(r=>`<tr><td><span class="rank-badge">${r.rank}</span></td><td>${titleCase(r.skill)}</td><td class="num">${fmt(r.postings)}</td></tr>`).join('')}</tbody>
+      </table>
+    </div>
+  </div>
+  `;
+};
+
+pages.growth = function(){
+  const rows = DATA.growth_latest_quarter;
+  const quarter = rows[0] ? rows[0].quarter : '';
+  const top8 = rows.slice(0,8);
+  return `
+  <div class="page-head">
+    <h1>Skill Growth</h1>
+    <p>Quarter-on-quarter change for every tracked skill, ${quarter}. Growth % = (current quarter − previous quarter) ÷ previous quarter.</p>
+  </div>
+  <div class="card">
+    <div class="section-title">Fastest-growing skills, ${quarter}</div>
+    <div class="chart-wrap">${barChart({bars: top8.map((r,i)=>({label:titleCase(r.skill), value:r.growth_pct, color: TRACKED.includes(r.skill)?"var(--amber)":"var(--teal)"})), height:240, yFormat:v=>Math.round(v)+'%'})}</div>
+  </div>
+  <div class="card" style="margin-top:14px;">
+    <div class="section-title">Full ranking — ${quarter}</div>
+    <table>
+      <thead><tr><th>Rank</th><th>Skill</th><th class="num">Prev. quarter</th><th class="num">This quarter</th><th class="num">Change</th><th class="num">QoQ growth</th></tr></thead>
+      <tbody>
+      ${rows.map((r,i)=>`<tr>
+        <td><span class="rank-badge">${i+1}</span></td>
+        <td>${titleCase(r.skill)}</td>
+        <td class="num">${fmt(r.previous_quarter)}</td>
+        <td class="num">${fmt(r.current_quarter)}</td>
+        <td class="num ${r.change>=0?'up':'down'}">${r.change>=0?'+':''}${fmt(r.change)}</td>
+        <td class="num"><span class="tag ${r.growth_pct>=0?'pill-good':'pill-bad'}">${r.growth_pct>=0?'+':''}${r.growth_pct}%</span></td>
+      </tr>`).join('')}
+      </tbody>
+    </table>
+  </div>
+  `;
+};
+
+pages.relationships = function(state){
+  state.relSkill = state.relSkill || "snowflake";
+  const rows = DATA.relationships[state.relSkill] || [];
+  return `
+  <div class="page-head">
+    <h1>Skill Relationships</h1>
+    <p>Select a skill to see which other skills appear most often on the same job posting, ranked by how many postings mention both.</p>
+  </div>
+  <div class="controls">
+    <select id="relSelect">${SKILLS.map(s=>`<option value="${s}" ${s===state.relSkill?'selected':''}>${titleCase(s)}</option>`).join('')}</select>
+  </div>
+  <div class="grid two-col">
+    <div class="card">
+      <div class="section-title">Top companion skills for ${titleCase(state.relSkill)}</div>
+      <div class="section-desc">Bar length = number of postings mentioning both skills, summed across all 18 months.</div>
+      <div class="chart-wrap">${rows.length ? hbarChart({bars: rows.map((r,i)=>({label:titleCase(r.companion), value:r.pair_postings, color: SERIES_COLORS[i%SERIES_COLORS.length]})), labelWidth:92, height:280}) : '<p style="color:var(--muted)">No co-occurring skills found.</p>'}</div>
+    </div>
+    <div class="card">
+      <div class="section-title">Detail</div>
+      <table>
+        <thead><tr><th>Companion</th><th class="num">Postings</th><th class="num">Confidence</th><th class="num">Lift</th></tr></thead>
+        <tbody>${rows.map(r=>`<tr><td>${titleCase(r.companion)}</td><td class="num">${fmt(r.pair_postings)}</td><td class="num">${r.confidence}%</td><td class="num">${r.lift}×</td></tr>`).join('')}</tbody>
+      </table>
+      <p class="section-desc" style="margin-top:12px;">Confidence: of postings with ${titleCase(state.relSkill)}, % that also mention the companion. Lift &gt; 1× means the pair co-occurs more than chance alone would predict.</p>
+    </div>
+  </div>
+  `;
+};
+
+pages.quality = function(){
+  const dq = DATA.data_quality;
+  const steps = [
+    {label: "Raw postings (Bronze)", value: dq.raw_postings, delta: null},
+    {label: "After deduplication", value: dq.clean_postings, delta: -dq.duplicates_removed},
+    {label: "Missing / \"Not specified\" skills", value: dq.clean_postings - dq.missing_or_notspecified, delta: -dq.missing_or_notspecified},
+    {label: "Unknown company removed", value: dq.clean_postings - dq.missing_or_notspecified - dq.unknown_company, delta: -dq.unknown_company},
+    {label: "Invalid date removed", value: dq.valid_postings, delta: -dq.invalid_date},
+  ];
+  const maxV = dq.raw_postings;
+  const rejectBars = [
+    {label: "Missing / not specified", value: dq.missing_or_notspecified, color: "var(--amber)"},
+    {label: "Unknown company", value: dq.unknown_company, color: "var(--teal)"},
+    {label: "Invalid date", value: dq.invalid_date, color: "#7A6FB9"},
+  ];
+  return `
+  <div class="page-head">
+    <h1>Data Quality</h1>
+    <p>Every number below is computed by the pipeline, not entered by hand — see <code>validation_report.json</code> for the full 17-check audit trail.</p>
+  </div>
+  <div class="grid kpis">
+    <div class="card"><div class="kpi-label">Raw postings</div><div class="kpi-value">${fmt(dq.raw_postings)}</div></div>
+    <div class="card"><div class="kpi-label">Clean postings</div><div class="kpi-value">${fmt(dq.clean_postings)}</div></div>
+    <div class="card"><div class="kpi-label">Valid postings (Gold)</div><div class="kpi-value">${fmt(dq.valid_postings)}</div></div>
+    <div class="card"><div class="kpi-label">Quality score</div><div class="kpi-value">${dq.quality_score_pct}%</div><div class="kpi-sub">valid ÷ clean postings</div></div>
+  </div>
+  <div class="card">
+    <div class="section-title">Bronze → Silver funnel</div>
+    <div class="section-desc">${fmt(dq.raw_postings)} raw postings resolve to ${fmt(dq.valid_postings)} valid, analytics-ready postings.</div>
+    <div class="funnel">
+      ${steps.map(s=>`<div class="funnel-step">
+        <div class="funnel-label">${s.label}</div>
+        <div class="funnel-bar-track"><div class="funnel-bar-fill" style="width:${(s.value/maxV*100).toFixed(1)}%"></div></div>
+        <div class="funnel-value">${fmt(s.value)}</div>
+        <div class="funnel-delta">${s.delta!==null ? s.delta+' rows' : ''}</div>
+      </div>`).join('')}
+    </div>
+  </div>
+  <div class="grid two-col" style="margin-top:14px;">
+    <div class="card">
+      <div class="section-title">Rejection reasons</div>
+      <div class="chart-wrap">${barChart({bars: rejectBars, height:220})}</div>
+    </div>
+    <div class="card">
+      <div class="section-title">Skill normalization</div>
+      <div class="section-desc">Raw skill text arrives in mixed case, comma- or semicolon-delimited, sometimes padded with stray spaces.</div>
+      <div class="stack-list">
+        <div class="stack-row"><span>Distinct raw skill strings</span><strong>${dq.raw_skill_variants}</strong></div>
+        <div class="stack-row"><span>Canonical skills after trim + lowercase</span><strong>${dq.canonical_skills}</strong></div>
+      </div>
+      <p class="section-desc" style="margin-top:12px;">Example: <code>"Snowflake"</code>, <code>"SNOWFLAKE"</code>, and <code>" Snowflake "</code> all normalize to <code>snowflake</code>.</p>
+    </div>
+  </div>
+  `;
+};
+
+pages.pipeline = function(){
+  const flow = [
+    {t:"Generator", d:"Seed 26, deterministic"},
+    {t:"Raw CSV", d:"companies, postings"},
+    {t:"Bronze", d:"Raw, provenance added"},
+    {t:"Silver", d:"Dedup, clean, normalize"},
+    {t:"Gold", d:"Skill-month, skill-pair"},
+    {t:"CSV Export", d:"To Snowflake stage"},
+    {t:"Snowflake", d:"COPY INTO, SQL"},
+    {t:"SkillPulse", d:"This dashboard"},
+  ];
+  return `
+  <div class="page-head">
+    <h1>Pipeline / About</h1>
+    <p>How data moves from a seeded generator to this dashboard, and what each layer is responsible for.</p>
+  </div>
+  <div class="card">
+    <div class="section-title">Architecture</div>
+    <div class="pipeline-flow" style="margin-top:10px;">
+      ${flow.map((f,i)=>`${i>0?'<div class="flow-arrow">→</div>':''}<div class="flow-node"><div class="t">${f.t}</div><div class="d">${f.d}</div></div>`).join('')}
+    </div>
+  </div>
+  <div class="grid two-col" style="margin-top:14px;">
+    <div class="card">
+      <div class="section-title">What each layer does</div>
+      <div class="stack-list">
+        <div class="stack-row"><span>Bronze</span><span style="color:var(--muted)">Raw load, every column a string, provenance columns added, nothing cleaned</span></div>
+        <div class="stack-row"><span>Silver</span><span style="color:var(--muted)">Dedup on posting_id, skill split &amp; normalize once, reject invalid rows with a reason</span></div>
+        <div class="stack-row"><span>Gold</span><span style="color:var(--muted)">Skill-month and skill-pair-month aggregates that answer the three analytical questions</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-title">Technology stack</div>
+      <div class="stack-list">
+        <div class="stack-row"><span>Data engineering</span><span style="color:var(--muted)">Python, PySpark, Delta Lake, Databricks</span></div>
+        <div class="stack-row"><span>Warehouse</span><span style="color:var(--muted)">Snowflake, Snowflake SQL, Stages, COPY INTO</span></div>
+        <div class="stack-row"><span>Dashboard</span><span style="color:var(--muted)">Static HTML/CSS/JS reading Gold-layer JSON</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px;">
+    <div class="section-title">Run status</div>
+    <p class="section-desc">Last local pipeline run: ${DATA.meta.generated_at}. Seed: ${DATA.meta.seed}. Every number on this dashboard traces back to that run's <code>validation_report.json</code> — see <a href="https://github.com" target="_blank" rel="noopener">the repository</a> for the full audit trail and source code.</p>
+  </div>
+  `;
+};
+
+/* ---------- shell / routing ---------- */
+const state = {};
+function render(page){
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active', b.dataset.page===page));
+  const main = document.getElementById('main');
+  main.innerHTML = pages[page](state) + `<footer class="foot">SkillPulse — Project 26, Job Postings Skill Demand · seed 26 · data generated ${DATA.meta.generated_at}</footer>`;
+  wireControls(page);
+  window.scrollTo(0,0);
+}
+function wireControls(page){
+  if (page === 'trends') {
+    document.getElementById('trendStart').onchange = e => { state.trendMonthStart = Math.min(+e.target.value, state.trendMonthEnd); render('trends'); };
+    document.getElementById('trendEnd').onchange = e => { state.trendMonthEnd = Math.max(+e.target.value, state.trendMonthStart); render('trends'); };
+    document.querySelectorAll('#modeChips .chip').forEach(c=>c.onclick=()=>{ state.trendMode=c.dataset.mode; render('trends'); });
+    document.querySelectorAll('#skillChips .chip').forEach(c=>c.onclick=()=>{
+      const s = c.dataset.skill;
+      const i = state.trendSkills.indexOf(s);
+      if (i>=0) { if(state.trendSkills.length>1) state.trendSkills.splice(i,1); }
+      else if (state.trendSkills.length < 6) state.trendSkills.push(s);
+      render('trends');
+    });
+  }
+  if (page === 'relationships') {
+    document.getElementById('relSelect').onchange = e => { state.relSkill = e.target.value; render('relationships'); };
+  }
+}
+document.getElementById('nav').addEventListener('click', e=>{
+  const btn = e.target.closest('button[data-page]');
+  if (btn) render(btn.dataset.page);
+});
+
+/* ---------- theme ---------- */
+function applyTheme(t){
+  document.documentElement.setAttribute('data-theme', t);
+  document.getElementById('themeLabel').textContent = t === 'dark' ? 'Light mode' : 'Dark mode';
+  try { localStorage.setItem('skillpulse-theme', t); } catch(e){}
+}
+document.getElementById('themeToggle').onclick = () => {
+  const curr = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  applyTheme(curr === 'dark' ? 'light' : 'dark');
+  render(document.querySelector('.nav button.active').dataset.page);
+};
+let savedTheme = 'light';
+try { savedTheme = localStorage.getItem('skillpulse-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); } catch(e){}
+applyTheme(savedTheme);
+
+render('overview');
+})();
+</script>
+</body>
+</html>

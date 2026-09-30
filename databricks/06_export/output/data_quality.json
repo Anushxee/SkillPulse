@@ -1,0 +1,12 @@
+{
+  "raw_postings": 55350,
+  "duplicates_removed": 1350,
+  "clean_postings": 54000,
+  "missing_or_notspecified": 1350,
+  "unknown_company": 540,
+  "invalid_date": 270,
+  "valid_postings": 51840,
+  "raw_skill_variants": 57,
+  "canonical_skills": 20,
+  "quality_score_pct": 96.0
+}
