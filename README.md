@@ -19,5 +19,13 @@ For example:
 ```text
 Python;SQL;Snowflake
 Python,SQL,Snowflake
- python ; sql ; snowflake
+python ; sql ; snowflake
 PYTHON;SQL;SNOWFLAKE
+
+
+## Deployed Project
+
+https://jobskillpulse.netlify.app
+<img width="947" height="480" alt="image" src="https://github.com/user-attachments/assets/acbe13bf-7019-444e-ba9d-527fdd7b17a7" />
+
+
