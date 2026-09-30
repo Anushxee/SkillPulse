@@ -1,29 +1,6 @@
 """
 SkillPulse — Project 26 (Job Postings Skill Demand) data generator.
 
-IMPORTANT — DOCUMENTED ASSUMPTION
-----------------------------------
-The uploaded faculty brief for Project 26 specifies exact target counts and
-formulas (row counts, tracked-skill totals, defect counts) but — unlike the
-network-analysis briefs (Topics 31-34), which ship literal PySpark generator
-code — it does not supply a row-by-row generator algorithm for Topic 26.
-
-This module is therefore an original, seeded (seed=26), fully reproducible
-generator that is DESIGNED to satisfy every explicit numeric target in the
-brief. Every design decision (city list, sector list, company assignment,
-date formula, defect placement strategy) is recorded here and in
-docs/data-dictionary.md. Nothing downstream is hardcoded to "look right" —
-the pipeline (Bronze/Silver/Gold/validation) computes its numbers from
-whatever this generator actually emits, and validation_report.json reports
-the real, computed values.
-
-Verified-by-derivation formulas (see docs/data-dictionary.md for the algebra):
-    Snowflake total  = sum_{m=0}^{17} (520 + 22m)        = 12,726
-    Databricks total = sum_{m=0}^{17} (400 + 18m)        =  9,954
-    Hadoop total      = sum_{m=0}^{17} (860 - 38m)        =  9,666
-    dbt total          = sum_{m=0}^{17} (260 + 11m)        =  6,363
-    (Snowflake/Databricks/Hadoop k-ranges are mutually disjoint per month,
-     so a posting carries at most one tracked skill from generation.)
 """
 import numpy as np
 import pandas as pd
